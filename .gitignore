@@ -1,0 +1,33 @@
+# 1. Môi trường ảo (BẮT BUỘC: tránh đẩy hàng nghìn file thư viện nặng và vô dụng với máy khác)
+venv/
+.venv/
+env/
+
+# 2. Thư mục dữ liệu (BẮT BUỘC: dữ liệu lớn không lưu trên GitHub, tránh vượt hạn mức 100MB)
+data/
+*.csv
+*.parquet
+*.json
+*.avro
+
+self-study books/
+Mini - Prj/
+
+
+# 3. File rác và bộ nhớ đệm của Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# 4. Checkpoints và file đệm của Jupyter Notebook
+.ipynb_checkpoints/
+
+# 5. File cấu hình riêng của hệ điều hành macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 6. File cấu hình IDE cục bộ (tùy chọn)
+.idea/
+*.swpvenv/
