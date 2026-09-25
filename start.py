@@ -1,27 +1,41 @@
-import os 
-import sys 
-
-
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
-        .appName("First_Principles_Partitions") \
+        .appName("DataFrame_Shuffle_Discovery") \
         .master("local[4]") \
+        .config("spark.sql.shuffle.partitions", "4") \
         .getOrCreate()
 
+spark.sparkContext.setLogLevel("ERROR")
 
-rdd = spark.sparkContext.parallelize([1, 2, 3, 4, 5, 6, 7, 8], 4)
+data = [
+        ("An", "Ha Noi"),
+        ("Binh", "Da Nang"),
+        ("Cuong", "HCM"),
+        ("Dung", "Ha Noi"),
+        ("Em", "HCM"),
+        ("Giang", "Ha Noi")
+]
 
-print(">> Tổng số partitions:", rdd.getNumPartitions())
+columns = ["Name", "City"]
 
-nhan_ba = rdd.map(lambda x: x * 3)
+df = spark.createDataFrame(data, columns)
 
-# print(">> Bien nhan_ba la:", nhan_ba)
+print(">> Schema:")
+df.printSchema()
 
-print(">> Dữ liệu nằm trong 4 khối:", nhan_ba.glom().collect())
+print(">> Content:")
+df.show()
 
-print(">> Cây phả hệ (Lineage) của nhan_ba:")
-print(nhan_ba.toDebugString().decode("utf-8"))
+print(">> Số lượng Partitions:", df.rdd.getNumPartitions())
 
-input("Nhấn Enter....")
+print(">> phân bổ:", df.rdd.glom().collect())
+
+print(">> KQ đếm số người theo thành phố:")
+city_count_df = df.groupBy("City").count()
+
+city_count_df.show()
+
+input("Nhap Enter....")
+
 spark.stop()
