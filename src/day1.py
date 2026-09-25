@@ -5,15 +5,6 @@ Mục tiêu:
   3. Hiểu cơ chế Lazy Evaluation, DAG, Narrow vs Wide Transformations (Shuffle).
   4. Đo lường hiệu năng: Thời gian chạy (Execution Time) & Biến thiên RAM (Memory Profiling).
 """
-
-import sys
-from pathlib import Path
-
-# Đảm bảo đường dẫn import hoạt động khi chạy trực tiếp script
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import (
