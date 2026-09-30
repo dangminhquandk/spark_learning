@@ -29,13 +29,13 @@ df.show()
 
 print(">> Số lượng Partitions:", df.rdd.getNumPartitions())
 
-print(">> phân bổ:", df.rdd.glom().collect())
+print(">> phân bố:", df.rdd.glom().collect())
 
-print(">> KQ đếm số người theo thành phố:")
+print(">> KQ đếm số người theo city:")
 city_count_df = df.groupBy("City").count()
 
 city_count_df.show()
 
-input("Nhap Enter....")
+input("Enter....")
 
 spark.stop()

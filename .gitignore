@@ -12,6 +12,8 @@ data/
 
 self-study books/
 Mini - Prj/
+communities/
+*.crc
 
 
 # 3. File rác và bộ nhớ đệm của Python

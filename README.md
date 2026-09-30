@@ -1,97 +1,48 @@
-# 🚀 Spark Learning & GraphFrames Research Lab
+# Vietnam E-commerce Knowledge Graph (VECOM)
+Dự án xây dựng **Đồ thị tri thức kinh tế (Economic Knowledge Graph)** phân tích xu hướng thương mại điện tử Việt Nam dựa trên báo cáo VECOM, sử dụng **Lambda Architecture** và **Data Lakehouse**.
 
-> **Dự án Nghiên cứu & Thực nghiệm Thuật toán Đồ thị Phân tán (Distributed Graph Mining) trên nền tảng Apache Spark & GraphFrames.**  
-> **Thành viên:** Đặng Minh Quân (Lead), Thành — **Giảng viên hướng dẫn:** Thầy Đặng.  
-> **Nền tảng thực thi:** Apple Silicon (MacBook Air M3, ARM64), Python 3.9, Apache Spark 4.0.4, GraphFrames.
+## 🏗 Kiến trúc Hệ thống (System Architecture)
 
----
-
-## 📌 1. Mục tiêu Nghiên cứu
-
-Dự án được xây dựng với mục tiêu làm chủ từ bản chất phần cứng đến các thuật toán nâng cao trên đồ thị quy mô lớn:
-
-1. **Nền tảng từ Nguyên lý cơ bản (First Principles):** Hiểu thấu đáo cách Spark phân bổ dữ liệu (Partitions), cơ chế thực thi lười biếng (Lazy Evaluation), đồ thị phả hệ (DAG Lineage) và hiện tượng xáo trộn dữ liệu (Shuffle).
-2. **Khai phá Đồ thị Phân tán (Graph Mining):** Triển khai và tối ưu hóa bộ thuật toán cốt lõi trên GraphFrames:
-   - **LPA (Label Propagation Algorithm):** Phát hiện cộng đồng (Community Detection) trong mạng lưới phức tạp theo cơ chế lan truyền nhãn và biểu quyết đa số.
-   - **PageRank:** Xác định độ trung tâm và tầm ảnh hưởng của các nút/dòng tiền.
-   - **Connected Components:** Gom cụm và khai phá các phân vùng liên thông.
-   - **Motif Finding:** Quét các mẫu hình liên kết và chu trình khép kín.
-3. **Kỹ thuật Đo lường & Tối ưu Phần cứng (Profiling & Optimization):** Thiết lập chuẩn đo lường thời gian chạy (Execution Time) và biến thiên RAM (`psutil`), ngăn ngừa tràn bộ đệm JVM và tối ưu hóa bộ nhớ trên chip Apple M3.
-
----
-
-## 🗺️ 2. Lộ trình Nghiên cứu 7 Ngày (Intensive Bootcamp)
-
-Chi tiết kế hoạch toàn thời gian được mô tả trong [ROADMAP_1_WEEK_INTENSIVE_GRAPHFRAME.md](ROADMAP_1_WEEK_INTENSIVE_GRAPHFRAME.md):
-
-- **Ngày 1:** Nền tảng PySpark, Kiến trúc phân tán (Driver vs Worker), Partitions, Lazy Evaluation & Spark Web UI (`localhost:4040`).
-- **Ngày 2:** Khởi tạo GraphFrame Core, Lược đồ Vertices/Edges, Phân tích Bậc đỉnh (Degree Centrality).
-- **Ngày 3:** Tìm kiếm mẫu hình (Motif Finding), Bắt chu trình đồ thị và ứng dụng phát hiện bất thường.
-- **Ngày 4 (Trọng tâm):** Thuật toán Lan truyền nhãn (**LPA**) & Khảo sát cấu trúc cộng đồng (Community Detection).
-- **Ngày 5:** PageRank & Thuật toán tìm đường đi ngắn nhất (BFS).
-- **Ngày 6:** Connected Components & Phân cụm mạng lưới quy mô lớn.
-- **Ngày 7:** Cắt tỉa nhánh lineage (`checkpoint`), Stress-test dữ liệu lớn và Tổng kết báo cáo.
-
----
-
-## 📂 3. Cấu trúc Dự án
+Hệ thống được thiết kế theo chuẩn Lambda Architecture kết hợp Lakehouse, tập trung vào khả năng mở rộng xử lý phân tán với Apache Spark & GraphFrames:
 
 ```text
 spark_learning/
-├── .agents/                    # Quy chuẩn và chỉ dẫn tác nhân thông minh
-│   └── rules/spark.md         # Tiêu chuẩn môi trường venv và tối ưu Spark
-├── data/                       # Dữ liệu thử nghiệm cục bộ (được bỏ qua bởi git)
-├── notebooks/                  # Sổ tay nghiên cứu Jupyter Notebooks
-├── src/                        # Mã nguồn chính
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   └── profiler.py        # Module đo lường thời gian thực thi & RAM
-│   ├── day1_dataframe_basics.py # Thực hành Spark DataFrame & Internals
-│   └── wordCount.py           # Bài toán kinh điển phân tán
-├── start.py                    # Script nhập môn khảo sát Partitions & DAG Web UI
-├── ROADMAP_1_WEEK_INTENSIVE_GRAPHFRAME.md # Lộ trình chi tiết 7 ngày
-├── requirements.txt            # Danh sách thư viện phụ thuộc
-├── .gitignore                  # Cấu hình loại trừ file rác, dữ liệu nặng và venv
-└── README.md                   # Tài liệu giới thiệu dự án
+├── data/                  # 🗄️ Tầng lưu trữ Data Lakehouse
+│   ├── raw/               # (Bronze) Dữ liệu thô (Báo cáo VECOM, CSV, API)
+│   ├── silver/            # (Silver) Dữ liệu đã làm sạch & chuẩn hóa (Parquet/Delta)
+│   └── gold/              # (Gold) Knowledge Graph (Vertices, Edges) & Bảng tổng hợp
+├── src/                   # ⚙️ Tầng xử lý (Compute Layer)
+│   ├── config/            # Cấu hình hệ thống (Spark, DB, Constants)
+│   ├── etl/               # Pipeline ETL (Extract, Transform, Load) -> Batch Layer
+│   ├── graph/             # Động cơ GraphFrames tính toán PageRank, LPA, Motif
+│   ├── dashboard/         # Logic phân tích & trực quan hóa (Serving Layer)
+│   ├── utils/             # Tiện ích chung (Profiler, Logger)
+│   └── lessons/           # Khu vực học tập & thực hành từng bước (Day 1, Day 2...)
+├── notebooks/             # 📓 Phân tích dữ liệu tương tác (EDA & Jupyter)
+├── docker-compose.yml     # Khởi tạo môi trường Docker (Spark, GraphFrames, Jupyter)
+└── Dockerfile             # Định nghĩa image
 ```
 
----
+## 🚀 Luồng dữ liệu (Data Pipeline)
 
-## ⚙️ 4. Hướng dẫn Thiết lập & Chạy thử nghiệm
+1. **ETL (Batch Layer):** 
+   - `src/etl/01_extract_vecom.py`: Trích xuất các thực thể (Địa phương, Sàn TMĐT, Chỉ số) từ dữ liệu thô.
+   - Trích xuất mối quan hệ (Cạnh) giữa các thực thể (VD: Dòng chảy hàng hóa, tác động chính sách).
+   - Lưu trữ dữ liệu về Data Lake (`data/silver/`).
+2. **Graph Processing (Graph Engine Layer):**
+   - Nạp Vertices và Edges vào `GraphFrame` (`src/graph/economic_graph.py`).
+   - Khai phá các chuỗi liên kết kinh tế (Motif Finding).
+   - Tính toán chỉ số mức độ tập trung / sức ảnh hưởng kinh tế của các tỉnh thành (PageRank).
+3. **Serving & Dashboard:**
+   - Dữ liệu kết quả từ Graph được xuất ra `data/gold/`.
+   - Kết nối với Dashboard (Streamlit / Superset) để trực quan hóa Đồ thị tri thức và Bảng xếp hạng.
 
-### Yêu cầu tiên quyết:
-- macOS (Apple Silicon M1/M2/M3) hoặc Linux
-- Java 17 hoặc Java 21 (đã cấu hình `JAVA_HOME`)
-- Python 3.9+ trong môi trường ảo nội bộ `./venv`
+## 🛠 Cách chạy ứng dụng
 
-### Cài đặt môi trường:
 ```bash
-# 1. Kích hoạt môi trường ảo nội bộ
-source venv/bin/activate
+# Khởi động môi trường phân tích trong Docker
+docker compose up -d
 
-# 2. Cài đặt các thư viện cần thiết
-pip install -r requirements.txt
+# Truy cập Spark UI:
+# http://localhost:4040
 ```
-
-### Chạy thử nghiệm nhập môn:
-```bash
-# Khảo sát Partitions và xem DAG Lineage
-python start.py
-```
-Khi chương trình dừng ở bước chờ, mở trình duyệt web truy cập:
-👉 **`http://localhost:4040`** để xem giao diện **Spark Web UI & DAG Visualization**.
-
----
-
-## 📊 5. Chuẩn mực Mã nguồn & Profiling
-
-Mọi tác vụ thuật toán đều được bọc trong bộ đo tài nguyên để phục vụ phân tích học thuật:
-
-```python
-from src.utils.profiler import profile_block
-
-with profile_block("Thuật toán Lan truyền nhãn (LPA)"):
-    # Code thuật toán Spark / GraphFrame ở đây
-    pass
-```
-*Kết quả sẽ tự động in ra màn hình thời gian thực thi (giây) và mức tăng trưởng RAM (MB).*
