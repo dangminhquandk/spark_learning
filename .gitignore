@@ -1,0 +1,8 @@
+# Jupyter & OS Cache
+.ipynb_checkpoints/
+.DS_Store
+__pycache__/
+*.pyc
+
+# Dataset > 100MB (Vượt quá giới hạn 100MB của GitHub khi không dùng Git LFS)
+house_prices.csv
