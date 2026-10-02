@@ -1,35 +1,51 @@
 """
 Tầng Graph Engine: Khai phá Đồ thị Tri thức Kinh tế (Economic Knowledge Graph)
 Phân tích thuật toán trên đồ thị:
-- PageRank: Tìm địa phương trọng điểm (Hub).
-- LPA: Phân cụm các vùng kinh tế lân cận.
+- PageRank: Xác định địa phương trọng điểm (Economic Hubs) dựa trên luồng giao thương.
+- LPA (Label Propagation): Tự động phân cụm các vùng kinh tế liên kết mật thiết.
 """
+import os
 import sys
 from pathlib import Path
 
 # Thêm thư mục gốc vào đường dẫn hệ thống
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.append(str(BASE_DIR))
+
+# Đảm bảo môi trường thực thi chuẩn theo quy tắc dự án
+os.environ["SPARK_LOCAL_IP"] = "127.0.0.1"
+os.environ["PYSPARK_PYTHON"] = sys.executable
 
 from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
 from graphframes import GraphFrame
 
-def create_spark_session():
-    """Khởi tạo SparkSession chuẩn cho GraphFrames trên Mac M3."""
-    return (
+from src.utils.profiler import profile_block
+
+
+def create_spark_session() -> SparkSession:
+    """Khởi tạo SparkSession chuẩn cho GraphFrames trên Apple Silicon (Mac M3)."""
+    spark = (
         SparkSession.builder
         .appName("VECOM_Economic_Knowledge_Graph")
         .master("local[4]")
         .config("spark.sql.shuffle.partitions", "4")
+        .config("spark.jars.packages", "graphframes:graphframes:0.8.4-spark3.5-s_2.13")
         .getOrCreate()
     )
+    # Checkpoint là bắt buộc để cắt tỉa RDD Lineage trong các giải thuật lặp (PageRank, LPA)
+    checkpoint_dir = str(BASE_DIR / ".spark_checkpoints")
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    spark.sparkContext.setCheckpointDir(checkpoint_dir)
+    return spark
 
-def build_economic_network(spark):
+
+def build_economic_network(spark: SparkSession) -> GraphFrame:
     """
     BƯỚC 1: Dựng mạng lưới giao thương các tỉnh thành Việt Nam.
     - Vertices (Đỉnh): Tỉnh/Thành phố (Bắt buộc có cột 'id').
     - Edges (Cạnh): Dòng giao dịch TMĐT (Bắt buộc có cột 'src' và 'dst').
     """
-    # 1. Bảng Đỉnh: Các trung tâm kinh tế đại diện
     provinces_data = [
         ("HN", "Ha Noi", "Mien Bac"),
         ("BN", "Bac Ninh", "Mien Bac"),
@@ -42,7 +58,7 @@ def build_economic_network(spark):
     ]
     vertices = spark.createDataFrame(provinces_data, ["id", "name", "region"])
 
-    # 2. Bảng Cạnh: Luồng giao thương (src -> dst với sản lượng thương mại 'volume' tỷ VNĐ)
+    # Luồng giao thương: src -> dst với sản lượng thương mại (tỷ VNĐ)
     trade_flows = [
         # Cụm kinh tế phía Bắc (giao thương nội bộ mạnh)
         ("BN", "HN", 120.5),
@@ -62,21 +78,49 @@ def build_economic_network(spark):
     ]
     edges = spark.createDataFrame(trade_flows, ["src", "dst", "trade_volume"])
 
-    # 3. Đóng gói vào GraphFrame
-    g = GraphFrame(vertices, edges)
-    return g
+    return GraphFrame(vertices, edges)
+
+
+def analyze_economic_hubs(g: GraphFrame, max_iter: int = 10, reset_prob: float = 0.15):
+    """
+    BƯỚC 2: Thuật toán PageRank xác định các cực tăng trưởng (Economic Hubs).
+    - resetProbability = 0.15 tương ứng damping factor = 0.85.
+    - Địa phương nhận dòng tiền lớn từ các nút có bậc cao sẽ có PageRank cao.
+    """
+    pr_result = g.pageRank(resetProbability=reset_prob, maxIter=max_iter)
+    return pr_result.vertices.select("id", "name", "region", "pagerank").orderBy(
+        F.col("pagerank").desc()
+    )
+
+
+def analyze_economic_clusters(g: GraphFrame, max_iter: int = 5):
+    """
+    BƯỚC 3: Thuật toán Label Propagation (LPA) phát hiện cụm cộng đồng giao thương.
+    - Tìm ra các nhóm tỉnh thành liên kết hữu cơ nội vùng.
+    """
+    lpa_result = g.labelPropagation(maxIter=max_iter)
+    return lpa_result.select("id", "name", "region", "label").orderBy("label", "region")
+
 
 if __name__ == "__main__":
     spark = create_spark_session()
     spark.sparkContext.setLogLevel("ERROR")
 
-    print("\n--- [1] KHỞI TẠO ECONOMIC KNOWLEDGE GRAPH ---")
-    g = build_economic_network(spark)
+    with profile_block("Khởi tạo Economic Knowledge Graph"):
+        g = build_economic_network(spark)
+        print(">> Danh sách các Tỉnh/Thành (Vertices):")
+        g.vertices.show(truncate=False)
+        print(">> Luồng giao thương TMĐT (Edges):")
+        g.edges.show(truncate=False)
 
-    print(">> Danh sách các Tỉnh/Thành (Vertices):")
-    g.vertices.show()
+    with profile_block("Phân tích PageRank (Economic Hubs)"):
+        print("\n🏆 [PAGERANK] BẢNG XẾP HẠNG CỰC TĂNG TRƯỞNG KINH TẾ:")
+        hubs_df = analyze_economic_hubs(g, max_iter=10)
+        hubs_df.show(truncate=False)
 
-    print(">> Luồng giao thương TMĐT (Edges):")
-    g.edges.show()
+    with profile_block("Phân tích LPA (Economic Communities)"):
+        print("\n🌐 [LPA] PHÂN CỤM CỘNG ĐỒNG GIAO THƯƠNG NỘI VÙNG:")
+        clusters_df = analyze_economic_clusters(g, max_iter=5)
+        clusters_df.show(truncate=False)
 
     spark.stop()

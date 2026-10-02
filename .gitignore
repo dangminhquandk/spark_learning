@@ -32,4 +32,5 @@ __pycache__/
 
 # 6. File cấu hình IDE cục bộ (tùy chọn)
 .idea/
-*.swpvenv/
+*.swp
+.spark_checkpoints/

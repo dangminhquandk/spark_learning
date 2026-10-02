@@ -22,8 +22,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 6. Mở cổng 4040 để xem Spark Web UI từ trình duyệt máy Mac
-EXPOSE 4040
+# 6. Mở cổng 4040 (Spark Web UI) và 8888 (Jupyter Lab)
+EXPOSE 4040 8888
 
 # Lệnh mặc định khi container khởi động: mở sẵn terminal bash
 CMD ["bash"]
