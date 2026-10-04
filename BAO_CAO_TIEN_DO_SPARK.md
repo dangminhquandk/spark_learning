@@ -135,6 +135,12 @@ pyspark/ (DANGTHANH2k7/pyspark)
 │   │   ├── read_data.py                      # Đọc và phân chia cạnh đồ thị
 │   │   ├── results_new/                      # Kết quả benchmark xuất ra CSV
 │   │   └── README.md                         # Báo cáo kỹ thuật thuật toán LPA
+│   ├── Mini - Prj/                           # Thực nghiệm Đồ thị tương tác trên Jupyter
+│   │   ├── mini.ipynb                        # Chu trình, Connected Components & PageRank
+│   │   └── test.ipynb                        # Khai phá mẫu đồ thị (Motif / Frenemies)
+│   ├── data/                                 # Dữ liệu mẫu (Seed Data)
+│   │   ├── input.txt                         # Dữ liệu cho RDD WordCount
+│   │   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
 │   ├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
 │   ├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
 │   ├── requirements.txt                      # Danh mục thư viện đồng bộ

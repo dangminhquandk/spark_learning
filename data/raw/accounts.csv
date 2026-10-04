@@ -1,0 +1,201 @@
+account_id,holder_name,account_type,balance,city,risk_score
+ACC_001,Nguyen Dinh Linh,Personal,86467.26,HCM,18
+ACC_002,Bui Thi Yen,Personal,148250.72,HCM,4
+ACC_003,Bui Hai An,Personal,196874.53,Dong Nai,84
+ACC_004,Dang Hai Linh,Personal,283491.23,Da Nang,1
+ACC_005,Phan Duc Em,Personal,76144.5,HCM,44
+ACC_006,Tap Doan Beta 46,Business,1710239.3,Can Tho,82
+ACC_007,Ngo Hoang Viet,Personal,44564.33,HCM,49
+ACC_008,Ly Xuan Phong,Personal,202495.9,Ha Noi,9
+ACC_009,Duong Duc Cuong,Personal,299505.88,Hue,13
+ACC_010,Ho Thanh Giang,Personal,130193.16,Can Tho,27
+ACC_011,Ho Xuan Cuong,Personal,213586.72,Dong Nai,22
+ACC_012,Le Hoang Quan,Personal,95211.79,Dong Nai,82
+ACC_013,Phan Van Khang,Personal,287809.11,Hue,41
+ACC_014,Pham Hai Nam,Personal,75206.66,Hue,64
+ACC_015,Ho Hoang Em,Personal,93443.18,Dong Nai,32
+ACC_016,Ngo Hai Son,Personal,314340.19,Nha Trang,52
+ACC_017,Le Gia Trang,Personal,32727.38,HCM,7
+ACC_018,Cong Ty Co Phan Gamma 88,Business,902103.94,Hue,13
+ACC_019,Dang Gia Linh,Personal,339906.35,HCM,2
+ACC_020,Bui Duc Nam,Personal,39931.71,Da Nang,56
+ACC_021,Ngo Dinh Linh,Personal,340188.95,Dong Nai,23
+ACC_022,Ly Xuan Minh,Personal,294742.6,Hai Phong,65
+ACC_023,Cong Ty Co Phan Gamma 70,Business,1911649.52,Ha Noi,72
+ACC_024,Dang Van Dung,Personal,325255.42,Hai Phong,40
+ACC_025,Tap Doan Beta 11,Business,1490624.43,Dong Nai,13
+ACC_026,Le Xuan Trang,Personal,331450.19,Can Tho,22
+ACC_027,Do Ngoc Huy,Personal,325190.81,Hai Phong,89
+ACC_028,Vu Xuan Phong,Personal,153896.93,Binh Duong,67
+ACC_029,Cong Ty Cong Nghe Delta 9,Business,742362.57,Dong Nai,80
+ACC_030,Pham Van Cuong,Personal,248036.49,Hai Phong,8
+ACC_031,Cong Ty TNHH Alpha 43,Business,234628.96,Can Tho,35
+ACC_032,Pham Gia Em,Personal,253450.05,Binh Duong,74
+ACC_033,Dang Ngoc Huy,Personal,33919.7,Hue,85
+ACC_034,Vu Hoang Binh,Personal,236004.23,HCM,83
+ACC_035,Tap Doan Bat Dong San Zeta 14,Business,572447.03,Dong Nai,29
+ACC_036,Vu Minh Linh,Personal,162457.2,Binh Duong,10
+ACC_037,Ly Gia Dung,Personal,18655.33,Ha Noi,70
+ACC_038,Duong Quang Giang,Personal,142838.51,Hai Phong,62
+ACC_039,Nguyen Minh Quan,Personal,1752.23,Can Tho,50
+ACC_040,Duong Hoang Minh,Personal,148629.61,Binh Duong,72
+ACC_041,Cong Ty Thuong Mai Epsilon 28,Business,1940547.79,Dong Nai,79
+ACC_042,Tap Doan Bat Dong San Zeta 8,Business,195270.44,Dong Nai,66
+ACC_043,Bui Minh Binh,Personal,336311.84,Da Nang,11
+ACC_044,Tap Doan Beta 87,Business,1737456.48,HCM,56
+ACC_045,Do Quang Yen,Personal,208487.18,HCM,80
+ACC_046,Do Hai Tuan,Personal,111413.08,Hai Phong,34
+ACC_047,Phan Quang Linh,Personal,139129.26,Can Tho,86
+ACC_048,Duong Thi An,Personal,160941.65,HCM,73
+ACC_049,Cong Ty Cong Nghe Delta 65,Business,603880.79,HCM,49
+ACC_050,Phan Duc Giang,Personal,153926.42,Can Tho,70
+ACC_051,Duong Xuan Tuan,Personal,3730.26,Can Tho,71
+ACC_052,Tran Minh Linh,Personal,41284.61,Dong Nai,14
+ACC_053,Cong Ty Thuong Mai Epsilon 78,Business,500196.34,Hai Phong,48
+ACC_054,Ly Duc Tuan,Personal,171497.62,HCM,7
+ACC_055,Ly Duc Binh,Personal,2237.45,Can Tho,17
+ACC_056,Cong Ty Duoc Pham Theta 71,Business,1440768.15,Ha Noi,76
+ACC_057,Cong Ty Co Phan Gamma 70,Business,168453.46,Dong Nai,52
+ACC_058,Cong Ty Co Phan Gamma 6,Business,685690.86,Nha Trang,10
+ACC_059,Pham Xuan Dung,Personal,124433.84,Hue,72
+ACC_060,Ngo Minh Khang,Personal,302747.39,Hue,23
+ACC_061,Tap Doan Bat Dong San Zeta 53,Business,1624246.76,Can Tho,36
+ACC_062,Tap Doan Beta 49,Business,1757116.89,Hai Phong,65
+ACC_063,Cong Ty Duoc Pham Theta 45,Business,679862.65,Hai Phong,34
+ACC_064,Cong Ty Cong Nghe Delta 52,Business,723697.71,Can Tho,13
+ACC_065,Bui Ngoc Viet,Personal,116571.3,HCM,4
+ACC_066,Hoang Minh Yen,Personal,336924.48,Ha Noi,34
+ACC_067,Cong Ty Logictics Eta 45,Business,1484235.62,Hue,45
+ACC_068,Bui Thi Quan,Personal,314927.15,Can Tho,25
+ACC_069,Cong Ty Logictics Eta 1,Business,1087848.66,Hai Phong,73
+ACC_070,Tran Xuan Nam,Personal,218481.24,HCM,85
+ACC_071,Hoang Gia Minh,Personal,233745.62,Hue,42
+ACC_072,Bui Minh Huy,Personal,147735.77,Da Nang,49
+ACC_073,Hoang Ngoc Viet,Personal,291970.08,Can Tho,39
+ACC_074,Duong Hai Nam,Personal,163280.88,Hai Phong,57
+ACC_075,Duong Dinh Giang,Personal,230938.91,Dong Nai,37
+ACC_076,Do Thanh Cuong,Personal,286629.79,Can Tho,31
+ACC_077,Pham Minh An,Personal,17128.59,HCM,61
+ACC_078,Ho Hai Huy,Personal,251702.72,Binh Duong,50
+ACC_079,Le Xuan An,Personal,312538.28,Hue,14
+ACC_080,Duong Dinh Tuan,Personal,163127.91,Hai Phong,72
+ACC_081,Tran Hoang Em,Personal,280694.39,Dong Nai,86
+ACC_082,Do Thanh Thao,Personal,214815.66,Hue,65
+ACC_083,Bui Hoang Giang,Personal,260535.75,Binh Duong,61
+ACC_084,Pham Xuan Linh,Personal,268268.98,Binh Duong,67
+ACC_085,Hoang Hoang Cuong,Personal,250027.16,Can Tho,31
+ACC_086,Bui Thi Em,Personal,53639.9,Da Nang,50
+ACC_087,Tran Ngoc Son,Personal,116477.61,Hue,60
+ACC_088,Cong Ty Logictics Eta 50,Business,1819193.11,Ha Noi,79
+ACC_089,Duong Hai Quan,Personal,167465.93,Can Tho,46
+ACC_090,Ly Ngoc Viet,Personal,261882.97,Hai Phong,70
+ACC_091,Hoang Ngoc Trang,Personal,11129.66,Hue,44
+ACC_092,Ly Hoang Em,Personal,343271.97,Ha Noi,69
+ACC_093,Do Hai An,Personal,30297.66,Da Nang,55
+ACC_094,Le Van Linh,Personal,133307.25,Binh Duong,28
+ACC_095,Duong Ngoc Linh,Personal,263451.43,Can Tho,54
+ACC_096,Dang Van Viet,Personal,19177.88,Hai Phong,45
+ACC_097,Duong Xuan Binh,Personal,264227.39,Hai Phong,32
+ACC_098,Do Minh Khang,Personal,45051.12,HCM,86
+ACC_099,Pham Hoang Linh,Personal,268647.44,HCM,22
+ACC_100,Le Duc Dung,Personal,202960.97,Hue,40
+ACC_101,Ngo Quang Cuong,Personal,207642.15,Hai Phong,81
+ACC_102,Cong Ty Thuong Mai Epsilon 88,Business,1240782.07,Ha Noi,20
+ACC_103,Vu Xuan Phong,Personal,25065.9,Nha Trang,83
+ACC_104,Cong Ty Logictics Eta 63,Business,300523.85,Binh Duong,51
+ACC_105,Vu Minh Tuan,Personal,337950.33,Dong Nai,35
+ACC_106,Dang Ngoc Yen,Personal,94670.04,HCM,32
+ACC_107,Dang Quang Thao,Personal,199877.53,Hue,86
+ACC_108,Dang Thanh Giang,Personal,171154.93,Can Tho,46
+ACC_109,Do Dinh Linh,Personal,194971.07,Hai Phong,67
+ACC_110,Cong Ty Logictics Eta 63,Business,1154834.8,Binh Duong,35
+ACC_111,Dang Hoang An,Personal,33475.62,Hue,29
+ACC_112,Hoang Xuan Yen,Personal,129788.14,Dong Nai,71
+ACC_113,Ngo Gia Nam,Personal,123781.87,Can Tho,59
+ACC_114,Pham Thi Huy,Personal,111126.23,Da Nang,69
+ACC_115,Cong Ty Duoc Pham Theta 36,Business,1476711.5,Can Tho,72
+ACC_116,Ly Quang Minh,Personal,80391.62,Can Tho,23
+ACC_117,Cong Ty Co Phan Gamma 36,Business,186479.83,Dong Nai,11
+ACC_118,Le Xuan Trang,Personal,36803.09,Can Tho,2
+ACC_119,Dang Thanh Giang,Personal,337958.68,Binh Duong,33
+ACC_120,Tap Doan Beta 52,Business,1034318.46,Ha Noi,78
+ACC_121,Cong Ty Thuong Mai Epsilon 11,Business,1988444.43,Dong Nai,20
+ACC_122,Do Hai Khang,Personal,271717.05,Binh Duong,49
+ACC_123,Hoang Hai Son,Personal,107577.71,Ha Noi,80
+ACC_124,Ngo Thi Huy,Personal,219304.75,HCM,34
+ACC_125,Cong Ty Co Phan Gamma 71,Business,242623.25,Hue,5
+ACC_126,Do Hoang Minh,Personal,12391.31,Can Tho,37
+ACC_127,Dang Thi Khang,Personal,323444.95,Hai Phong,81
+ACC_128,Bui Quang Em,Personal,318035.59,HCM,19
+ACC_129,Cong Ty Thuong Mai Epsilon 77,Business,1523019.67,Can Tho,77
+ACC_130,Dang Dinh Minh,Personal,245207.06,Dong Nai,35
+ACC_131,Dang Thi Binh,Personal,311408.59,Can Tho,42
+ACC_132,Cong Ty Cong Nghe Delta 87,Business,1688321.37,Ha Noi,78
+ACC_133,Ho Duc Yen,Personal,15040.85,Binh Duong,23
+ACC_134,Dang Duc Giang,Personal,348933.97,Binh Duong,56
+ACC_135,Dang Thanh Son,Personal,117324.63,HCM,86
+ACC_136,Phan Ngoc Trang,Personal,101588.01,Dong Nai,52
+ACC_137,Tap Doan Beta 41,Business,579557.82,Hue,19
+ACC_138,Ly Van Viet,Personal,162229.74,Hai Phong,7
+ACC_139,Do Hoang Thao,Personal,266236.7,Can Tho,27
+ACC_140,Hoang Hoang Trang,Personal,43377.7,Hai Phong,81
+ACC_141,Hoang Gia An,Personal,193735.74,Hai Phong,12
+ACC_142,Tran Hoang Dung,Personal,227050.68,Binh Duong,20
+ACC_143,Hoang Gia Linh,Personal,146006.13,Binh Duong,62
+ACC_144,Bui Minh Quan,Personal,67523.02,Dong Nai,77
+ACC_145,Le Thi Linh,Personal,270663.62,Nha Trang,54
+ACC_146,Bui Duc An,Personal,99710.81,Binh Duong,39
+ACC_147,Dang Gia Trang,Personal,121448.26,Dong Nai,71
+ACC_148,Phan Quang Khang,Personal,200557.38,Hue,30
+ACC_149,Cong Ty Duoc Pham Theta 91,Business,1835517.32,Hue,53
+ACC_150,Duong Xuan Em,Personal,173869.7,Da Nang,5
+ACC_151,Do Thanh Dung,Personal,306092.44,HCM,57
+ACC_152,Dang Van Em,Personal,144082.54,Da Nang,84
+ACC_153,Cong Ty Thuong Mai Epsilon 44,Business,1284192.86,HCM,55
+ACC_154,Ly Xuan Viet,Personal,133623.28,Binh Duong,41
+ACC_155,Nguyen Hai Cuong,Personal,82934.81,Can Tho,88
+ACC_156,Ngo Thi Son,Personal,342439.87,HCM,82
+ACC_157,Ngo Duc An,Personal,17050.85,Can Tho,8
+ACC_158,Vu Minh Khang,Personal,186377.05,Da Nang,73
+ACC_159,Tap Doan Beta 79,Business,1754595.24,Hai Phong,84
+ACC_160,Do Minh Khang,Personal,161941.32,Binh Duong,33
+ACC_161,Nguyen Hoang Minh,Personal,237486.2,HCM,21
+ACC_162,Phan Hai Minh,Personal,223989.61,Can Tho,55
+ACC_163,Hoang Quang Quan,Personal,298814.08,Hai Phong,14
+ACC_164,Phan Hai Minh,Personal,347449.52,Ha Noi,38
+ACC_165,Ho Ngoc Linh,Personal,3826.19,Ha Noi,88
+ACC_166,Ngo Hoang Minh,Personal,271733.6,Nha Trang,30
+ACC_167,Pham Hai Linh,Personal,237539.8,Da Nang,85
+ACC_168,Ho Xuan Binh,Personal,108817.58,Ha Noi,57
+ACC_169,Ngo Minh Cuong,Personal,318460.11,Hue,42
+ACC_170,Cong Ty Co Phan Gamma 70,Business,1765275.13,Dong Nai,51
+ACC_171,Hoang Minh Linh,Personal,320003.08,Can Tho,62
+ACC_172,Phan Thi Thao,Personal,337049.76,Hai Phong,19
+ACC_173,Ngo Xuan Quan,Personal,338577.14,Nha Trang,72
+ACC_174,Cong Ty Logictics Eta 2,Business,602471.3,Binh Duong,20
+ACC_175,Ngo Xuan Linh,Personal,205011.47,Nha Trang,82
+ACC_176,Cong Ty Cong Nghe Delta 61,Business,147546.83,Nha Trang,76
+ACC_177,Pham Xuan Cuong,Personal,222755.97,Can Tho,60
+ACC_178,Tran Minh Binh,Personal,331245.27,Binh Duong,39
+ACC_179,Cong Ty Cong Nghe Delta 69,Business,357761.69,Nha Trang,63
+ACC_180,Ngo Dinh Viet,Personal,147275.24,Hue,20
+ACC_181,Ly Hoang Son,Personal,328729.52,Ha Noi,36
+ACC_182,Pham Hoang Thao,Personal,332743.75,HCM,47
+ACC_183,Phan Gia Phong,Personal,22131.98,Hai Phong,36
+ACC_184,Ly Hoang Cuong,Personal,232306.29,Ha Noi,83
+ACC_185,Tap Doan Bat Dong San Zeta 32,Business,1978759.72,Hai Phong,77
+ACC_186,Cong Ty Cong Nghe Delta 76,Business,510307.57,Nha Trang,34
+ACC_187,Duong Hai An,Personal,97768.92,Da Nang,19
+ACC_188,Duong Minh Dung,Personal,231709.12,Da Nang,4
+ACC_189,Cong Ty Cong Nghe Delta 76,Business,715165.78,Can Tho,27
+ACC_190,Cong Ty Logictics Eta 68,Business,315933.68,Binh Duong,13
+ACC_191,Phan Gia Yen,Personal,39059.85,Hai Phong,65
+ACC_192,Nguyen Dinh Tuan,Personal,106268.98,Ha Noi,83
+ACC_193,Cong Ty Duoc Pham Theta 52,Business,909919.88,Binh Duong,18
+ACC_194,Dang Thi Cuong,Personal,113417.03,HCM,19
+ACC_195,Tap Doan Bat Dong San Zeta 49,Business,1989792.74,Can Tho,72
+ACC_196,Do Ngoc Dung,Personal,277790.54,Dong Nai,15
+ACC_197,Pham Ngoc Thao,Personal,310943.77,Nha Trang,53
+ACC_198,Vu Ngoc Dung,Personal,110079.37,Can Tho,41
+ACC_199,Le Xuan Trang,Personal,24429.52,HCM,11
+ACC_200,Ngo Dinh Phong,Personal,284307.48,Ha Noi,72

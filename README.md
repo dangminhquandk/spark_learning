@@ -22,9 +22,11 @@ Dự án này ghi lại toàn bộ hành trình làm chủ Spark từ nguyên l�
   * Bộ đo thời gian thực thi (Wall-clock Time) và mức tăng trưởng RAM (`src/utils/profiler.py`) tối ưu cho phần cứng máy trạm.
 * **Distributed Graph Mining (GraphFrames):**
   * Mô hình hóa Đồ thị tri thức kinh tế VECOM (`src/graph/economic_graph.py`).
+  * Thực nghiệm Đồ thị trên Jupyter (`Mini - Prj/mini.ipynb`, `Mini - Prj/test.ipynb`): Phát hiện chu trình (Cycle Detection), Thành phần liên thông (Connected Components) và PageRank.
   * Thuật toán **PageRank** phân tán và **Label Propagation Algorithm (LPA)** phát hiện cộng đồng (`LPA_Label_Propogation_Algorithm/`).
   * Cơ chế cắt tỉa RDD Lineage bằng `checkpoint()` chống tràn ngăn xếp bộ nhớ JVM (StackOverflowError).
-* **Dockerized Spark Lab:**
+* **Môi trường & Dữ liệu thực nghiệm:**
+  * Bộ dữ liệu mẫu (`data/raw/accounts.csv`, `data/input.txt`).
   * Môi trường Spark 3.5 + GraphFrames + Jupyter sẵn sàng chạy thực nghiệm (`Dockerfile`, `docker-compose.yml`).
 
 ---
