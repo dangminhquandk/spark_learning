@@ -1,7 +1,7 @@
 # ⚡ PySpark & GraphFrame
 
 
-> 📌 **Báo cáo Tiến độ:** Xem tài liệu chi tiết tại **[BAO_CAO_TIEN_DO_SPARK.md](./BAO_CAO_TIEN_DO_SPARK.md)**
+> 📌 **Báo cáo Tiến độ:** **[BAO_CAO_TIEN_DO_SPARK.md](./BAO_CAO_TIEN_DO_SPARK.md)**
 
 ---
 ### 2. Phân hệ Engine Internals, Profiler & GraphFrame
@@ -11,26 +11,21 @@
 * **Distributed Graph Mining (GraphFrames):**
   * Mô hình hóa Đồ thị tri thức kinh tế VECOM (`src/graph/economic_graph.py`).
   * Thực nghiệm Đồ thị trên Jupyter (`Mini - Prj/mini.ipynb`, `Mini - Prj/test.ipynb`): Phát hiện chu trình (Cycle Detection), Thành phần liên thông (Connected Components) và PageRank.
-  * Thuật toán **PageRank** phân tán và **Label Propagation Algorithm (LPA)** phát hiện cộng đồng (`LPA_Label_Propogation_Algorithm/`).
-  * Cơ chế cắt tỉa RDD Lineage bằng `checkpoint()` chống tràn ngăn xếp bộ nhớ JVM (StackOverflowError).
+  * Thuật toán **Label Propagation Algorithm (LPA)** phát hiện cộng đồng (`LPA_Label_Propogation_Algorithm/`).
+  * Cơ chế cắt tỉa RDD Lineage bằng `checkpoint()` chống tràn ngăn xếp bộ nhớ JVM.
 * **Môi trường & Dữ liệu thực nghiệm:**
   * Bộ dữ liệu mẫu (`data/raw/accounts.csv`, `data/input.txt`).
   * Môi trường Spark 3.5 + GraphFrames + Jupyter sẵn sàng chạy thực nghiệm (`Dockerfile`, `docker-compose.yml`).
 
 ---
 
-## 🛠️ Hướng dẫn Khởi chạy Nhanh
-
 ### 1. Khởi chạy với Môi trường Python cục bộ
 ```bash
 # Cài đặt thư viện phụ thuộc
 pip install -r requirements.txt
 
-# Chạy bài học kiểm thử Spark Engine & Profiling
+# Chạy kiểm thử 
 python src/lessons/self_day1_dataframe.py
-
-# Chạy đồ thị kinh tế & PageRank / LPA
-python src/graph/economic_graph.py
 ```
 
 ### 2. Khởi chạy với Cụm Docker Spark
