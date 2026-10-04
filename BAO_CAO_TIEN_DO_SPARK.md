@@ -1,66 +1,54 @@
 # 🚀 BÁO CÁO TIẾN ĐỘ HỌC TẬP & NGHIÊN CỨU HỆ THỐNG APACHE SPARK
-**Dự án:** Nghiên cứu & Ứng dụng Apache Spark: Từ Nền tảng Engine, MLlib đến Phân tán Đồ thị (GraphFrames)  
-**Nhóm thực hiện:** Đặng Thành (`@DANGTHANH2k7`) & Đặng Minh Quân (`@dangminhquandk`)  
-**Repository:** [https://github.com/DANGTHANH2k7/pyspark](https://github.com/DANGTHANH2k7/pyspark)  
+**Đề tài:** Nghiên cứu Chuyên sâu Động cơ Phân tán Apache Spark & Khai phá Đồ thị Nâng cao (GraphFrames)  
+**Người thực hiện:** Đặng Minh Quân (`@dangminhquandk`)  
+**Nhánh làm việc:** `Minh-Quân`  
+**Repository:** [https://github.com/DANGTHANH2k7/pyspark/tree/Minh-Quân](https://github.com/DANGTHANH2k7/pyspark/tree/Minh-Quân)  
 **Thời gian báo cáo:** Tháng 10/2026  
 
 ---
 
-## 📌 I. TỔNG QUAN LỘ TRÌNH VÀ PHÂN CÔNG HỌC TẬP
+## 📌 I. TỔNG QUAN MỤC TIÊU & ĐỊNH HƯỚNG NGHIÊN CỨU
 
-Để tiếp cận Apache Spark một cách toàn diện và có chiều sâu hệ thống, nhóm chia lộ trình học tập thành hai trụ cột song song bổ trợ lẫn nhau:
-* **Trụ cột 1 (Đặng Thành phụ trách):** Nền tảng DataFrame API, Feature Engineering phân tán và Mô hình học máy phân tán (**Spark MLlib**).
-* **Trụ cột 2 (Đặng Minh Quân phụ trách):** Kiến trúc lõi Spark Engine, Cơ chế Shuffle & Tối ưu hóa phần cứng, Môi trường Docker Lab và Khai phá dữ liệu đồ thị nâng cao (**GraphFrames & Graph Mining**).
+Thay vì chỉ tiếp cận Apache Spark ở góc độ cú pháp API mức cao (High-level API), lộ trình nghiên cứu của tôi tập trung vào **Nguyên lý Hoạt động từ Đầu (First Principles)** và **Kiến trúc Thực thi Phần cứng (Hardware & Distributed Engine)**, chia thành 3 trụ cột kỹ thuật cốt lõi:
 
 ```text
-                               ┌─────────────────────────────────────────────────────┐
-                               │             APACHE SPARK SYSTEM LAB                 │
-                               └──────────────────────────┬──────────────────────────┘
-                                                          │
-                    ┌─────────────────────────────────────┴─────────────────────────────────────┐
-                    ▼                                                                           ▼
-      【 ĐẶNG THÀNH 】                                                            【 ĐẶNG MINH QUÂN 】
-  Core DataFrame & Machine Learning (MLlib)                                  Engine Internals & Graph Mining (GraphFrames)
-  ──────────────────────────────────────────                                 ────────────────────────────────────────────
-  • PySpark Core (Filter, GroupBy, Impute)                                   • Spark Internals (Catalyst, Tungsten, DAG)
-  • Feature Pipeline (StringIndexer, OHE)                                    • Lazy Evaluation (Transformations vs Actions)
-  • MLlib Linear Regression (House Prices, Tips)                             • Shuffle Mechanics & Stage Boundaries
-  • Toán tối ưu phân tán: Quasi-Newton L-BFGS                                • Hardware Profiling (Execution Time, Memory)
-  • Đánh giá mô hình: R², RMSE, MAE, Log Transform                           • GraphFrames: PageRank & LPA Community Detection
-                                                                             • Lineage Pruning (Checkpointing for Iterative DAGs)
-                                                                             • Dockerized Multi-service Spark Environment
+                               ┌────────────────────────────────────────────────────────┐
+                               │           SPARK DISTRIBUTED SYSTEM LAB                 │
+                               │           Tác giả: Đặng Minh Quân                      │
+                               └───────────────────────────┬────────────────────────────┘
+                                                           │
+               ┌───────────────────────────────────────────┼───────────────────────────────────────────┐
+               ▼                                           ▼                                           ▼
+   【 ENGINE INTERNALS & PROFILING 】           【 DISTRIBUTED GRAPH MINING 】                 【 DOCKERIZED ENVIRONMENT 】
+   ─────────────────────────────────           ──────────────────────────────                 ────────────────────────────
+   • Catalyst Optimizer & DAG Plans            • GraphFrames (Vertices & Edges)               • Docker Compose (Spark 3.5 + JARs)
+   • Lazy: Transformations vs Actions          • PageRank: Random Walk & Influence            • Khắc phục xung đột PySpark & JVM
+   • Narrow vs Wide (Shuffle Boundary)         • LPA Community Detection (Lan truyền nhãn)    • Tối ưu phần cứng chip Mac M3
+   • Hardware Profiler (RAM RSS & Time)        • Lineage Checkpointing (Tránh StackOverflow)  • Data Lakehouse: Bronze/Silver/Gold
 ```
+
+1. **Trụ cột 1: Động cơ Spark & Tối ưu hóa Phần cứng (Engine Internals & Profiling):**
+   - Làm chủ cơ chế Lazy Evaluation, phân tích kế hoạch thực thi logic và vật lý qua **Catalyst Optimizer** và **Tungsten Engine**.
+   - Bóc tách bản chất **Narrow Dependency** (xử lý in-memory pipelining tại chỗ) vs **Wide Dependency** (Shuffle Exchange phân tán, cắt Stage).
+   - Tối ưu hóa điều phối phân vùng: khống chế `spark.sql.shuffle.partitions = 4` phù hợp với 4 nhân CPU trên chip Apple Silicon (Mac M3) thay vì 200 partition mặc định gây lãng phí tài nguyên.
+   - Xây dựng bộ công cụ profiling độc lập (`src/utils/profiler.py`) giám sát đồng thời thời gian thực thi (Wall-clock Time) và mức tăng trưởng bộ nhớ RAM (Memory RSS Growth).
+
+2. **Trụ cột 2: Khai phá Đồ thị Phân tán Nâng cao (GraphFrames & Graph Mining):**
+   - **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph):** Biểu diễn mạng lưới các địa phương, sàn TMĐT và dòng chảy kinh tế dưới dạng directed multigraph (`src/graph/economic_graph.py`).
+   - **Thuật toán PageRank phân tán:** Mô phỏng Random Walk with Teleportation để xác định các hạt nhân điều phối dòng chảy kinh tế.
+   - **Thuật toán Lan truyền nhãn (Label Propagation Algorithm - LPA):** Triển khai phân cụm phát hiện cộng đồng tự nhiên trên dữ liệu lớn (`LPA_Label_Propogation_Algorithm/`).
+   - **Cơ chế Lineage Pruning (`checkpoint()`):** Giải quyết triệt để lỗi tràn ngăn xếp bộ nhớ JVM (**StackOverflowError**) phát sinh trong các giải thuật đồ thị lặp phân tán.
+   - **Thực nghiệm tương tác trên Jupyter Notebooks (`Mini - Prj/`):** Khai phá chu trình (Cycle Detection), thành phần liên thông (Connected Components) và mẫu đồ thị (Graph Motifs).
+
+3. **Trụ cột 3: Môi trường & Hạ tầng Triển khai Chuẩn hóa (Dockerized Spark Lab):**
+   - Đóng gói toàn bộ cụm thử nghiệm qua `Dockerfile` và `docker-compose.yml` tích hợp Spark 3.5, GraphFrames JAR, Hadoop AWS và Jupyter.
 
 ---
 
 ## 🔬 II. NỘI DUNG NGHIÊN CỨU & THỰC THI CHI TIẾT
 
-### 1. Phân hệ của Đặng Thành: Core DataFrame & Machine Learning (MLlib)
+### 1. Kiến trúc Động cơ Spark & Tối ưu hóa từ Nguyên lý đầu tiên (First Principles)
 
-#### 1.1. Thao tác dữ liệu nền tảng trên PySpark DataFrame
-* **Xử lý giá trị khuyết (`null_value.ipynb`):** Triển khai `Imputer` song song hóa trên các partition để bù khuyết theo giá trị trung vị (`median`), xử lý các kiểu dữ liệu dị thường mà không gây lệch schema.
-* **Lọc và Biến đổi dữ liệu (`basic.ipynb`, `filter_operation.ipynb`):** Sử dụng các biểu thức điều kiện phân tán, so khớp chuỗi regex, ép kiểu an toàn ANSI SQL (`try_cast`).
-* **Tổng hợp và Gom nhóm (`groupby_aggregateFunc.ipynb`):** Thực thi gom nhóm song song qua cơ chế Map-side Aggregation để tối ưu lưu lượng shuffle qua mạng.
-
-#### 1.2. Kỹ thuật đặc trưng & Học máy phân tán (MLlib Regression)
-* **Dataset thực nghiệm:** Tips dataset (`LinearRegression/tips/`) và House Prices dataset (`LinearRegression/house_prices/`).
-* **Feature Engineering Pipeline:**
-  - `StringIndexer`: Mã hóa các biến định danh phân loại theo tần suất xuất hiện.
-  - `OneHotEncoder(dropLast=True)`: Chuyển đổi sang `SparseVector`, triệt tiêu bẫy đa cộng tuyến (Dummy Variable Trap).
-  - `VectorAssembler`: Gom các biến số và vector thành vector không gian trạng thái $\mathbf{x} \in \mathbb{R}^{127}$.
-* **Thuật toán tối ưu hóa phân tán L-BFGS:**
-  - Giải bài toán hồi quy Ridge có điều chuẩn $L_2$:
-    $$\min_{\mathbf{w}, b} \frac{1}{2N} \sum_{i=1}^N (y^{(i)} - (\mathbf{w}^T \mathbf{x}^{(i)} + b))^2 + \frac{\lambda}{2} \|\mathbf{w}\|_2^2$$
-  - Spark MLlib tính toán gradient song song trên các worker node, xấp xỉ ma trận nghịch đảo Hessian $H^{-1}$ mà không tốn dung lượng RAM lưu trữ toàn bộ ma trận $127 \times 127$.
-* **Phân tích toán học nâng cao:**
-  - Ứng dụng biến đổi logarit nhãn $\ln(y)$ để nén phân phối lệch phải, chuyển bài toán từ tối thiểu hóa sai số tiền tuyệt đối sang tối thiểu hóa sai số phần trăm tương đối.
-  - Phân tích Bất đẳng thức Jensen: Khi giải mã hàm mũ $\hat{y} = \exp(\hat{y}_{\text{log}})$, mô hình thực chất ước lượng Trung vị có điều kiện (Conditional Median), giải thích lý do vì sao MAE giảm ngoạn mục $10.5\%$ (từ $2.768$M xuống $2.479$M INR).
-
----
-
-### 2. Phân hệ của Đặng Minh Quân: Engine Internals & Graph Analytics (GraphFrames)
-
-#### 2.1. Động cơ thực thi Spark & Tối ưu hóa từ Nguyên lý đầu tiên (First Principles)
 * **Lazy Evaluation & Catalyst Optimizer:** 
   - Phân tách rạch ròi giữa **Transformations** (chỉ dựng đồ thị tính toán kế hoạch thực thi logic - DAG) và **Actions** (kích hoạt Job tính toán vật lý).
   - Tránh kích hoạt Action bừa bãi (`.count()`, `.show()`) trong vòng lặp lớn để không phá vỡ khả năng tối ưu hóa pipelining của Catalyst.
@@ -71,7 +59,10 @@
 * **Hệ thống Hardware Profiling chuyên dụng (`src/utils/profiler.py`):**
   - Giám sát đồng thời thời gian thực thi (Wall-clock Time) và mức tăng trưởng bộ nhớ RAM (Resident Set Size - RSS Memory Delta) qua thư viện `psutil` để phát hiện rò rỉ bộ nhớ hoặc bottleneck phân tán.
 
-#### 2.2. Khai phá Đồ thị phân tán (Graph Mining với GraphFrames)
+---
+
+### 2. Khai phá Đồ thị Phân tán (Graph Mining với GraphFrames)
+
 * **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph - `src/graph/`):**
   - Biểu diễn mạng lưới các địa phương, sàn TMĐT và chuỗi liên kết dòng chảy kinh tế dưới dạng directed graph (Vertices $V$ & Edges $E$).
 * **Thuật toán PageRank phân tán:**
@@ -85,70 +76,71 @@
 * **Kiểm soát Lineage & Tránh StackOverflowError (`checkpoint()`):**
   - Các thuật toán đồ thị lặp (Iterative Graph Algorithms) làm đồ thị RDD Lineage kéo dài liên tục sau mỗi vòng lặp.
   - Giải pháp bắt buộc: Thiết lập `spark.sparkContext.setCheckpointDir()` để định kỳ cắt tỉa nhánh lineage, ghi trạng thái trung gian xuống bộ lưu trữ tin cậy, ngăn ngừa tràn ngăn xếp bộ nhớ JVM.
+* **Thực nghiệm Tương tác trên Jupyter (`Mini - Prj/`):**
+  - [mini.ipynb](file:///Users/quandkh/spark_learning/Mini%20-%20Prj/mini.ipynb): Kiểm thử cấu hình an toàn cho chip Mac M3, giải thuật phát hiện chu trình (Cycle Detection), Connected Components và PageRank.
+  - [test.ipynb](file:///Users/quandkh/spark_learning/Mini%20-%20Prj/test.ipynb): Khai phá các mẫu quan hệ phức tạp (Motif Finding / Frenemies).
 
-#### 2.3. Môi trường Thực nghiệm chuẩn hóa (Dockerized Spark Lab)
+---
+
+### 3. Môi trường Thực nghiệm chuẩn hóa (Dockerized Spark Lab)
+
 * Đóng gói toàn bộ cụm thử nghiệm qua `Dockerfile` và `docker-compose.yml`:
   - Apache Spark 3.5.0, Python 3.11, PySpark, GraphFrames JAR (`graphframes:graphframes:0.8.3-spark3.5-s_2.12`), Hadoop AWS.
   - Tách biệt môi trường ảo nội bộ (`./venv/`), cấu hình chuẩn `SPARK_LOCAL_IP = "127.0.0.1"` và đồng bộ `PYSPARK_PYTHON = sys.executable`.
 
 ---
 
-## 📂 III. BẢN ĐỒ CẤU TRÚC MÃ NGUỒN (REPOSITORY STRUCTURE)
+## 📂 III. BẢN ĐỒ CẤU TRÚC MÃ NGUỒN NHÁNH MINH-QUÂN
+
+Toàn bộ các tài nguyên, mã nguồn và tài liệu trên nhánh **`Minh-Quân`** được thiết kế module hóa, phục vụ trực tiếp cho lộ trình nghiên cứu trên:
 
 ```text
-pyspark/ (DANGTHANH2k7/pyspark)
-│
-├── 🌿 NHÁNH `Thanh`: Phân hệ Core DataFrame & MLlib (Đặng Thành phụ trách)
-│   ├── basic.ipynb, filter_operation.ipynb, groupby_aggregateFunc.ipynb, null_value.ipynb
-│   ├── MLLib.ipynb
-│   └── LinearRegression/ (tips/, house_prices/)
-│
-└── 🌿 NHÁNH `Minh-Quân`: Phân hệ Engine Internals, Profiler & GraphFrames (Đặng Minh Quân phụ trách)
-    ├── src/
-    │   ├── lessons/                          # Các bài học & thực hành chuẩn hóa
-    │   │   ├── 00_hello_spark.py             # Khởi tạo SparkSession chuẩn Apple Silicon
-    │   │   ├── wordCount.py                  # MapReduce kinh điển trên RDD
-    │   │   ├── day1_dataframe.py             # Transformation vs Action, Narrow vs Wide
-    │   │   └── self_day1_dataframe.py        # Code tự gõ thực hành và kiểm thử profiling
-    │   ├── graph/                            # Động cơ đồ thị phân tán
-    │   │   ├── economic_graph.py             # Xây dựng đồ thị VECOM, PageRank, LPA
-    │   │   └── self_lpa.py                   # Triển khai thực nghiệm thuật toán LPA
-    │   ├── etl/
-    │   │   └── 01_extract_vecom.py           # Pipeline ETL trích xuất thực thể đồ thị
-    │   └── utils/
-    │       └── profiler.py                   # Bộ đo Memory RSS Growth & Wall-clock Time
-    ├── Mini - Prj/                           # Thực nghiệm Đồ thị tương tác trên Jupyter
-    │   ├── mini.ipynb                        # Chu trình, Connected Components & PageRank
-    │   └── test.ipynb                        # Khai phá mẫu đồ thị (Motif / Frenemies)
-    ├── LPA_Label_Propogation_Algorithm/       # Pipeline chuyên sâu thuật toán LPA
-    │   ├── communities.py                    # Khai phá cộng đồng
-    │   ├── graphx.py                         # Cấu trúc đồ thị phân tán
-    │   ├── read_data.py                      # Đọc và phân chia cạnh đồ thị
-    │   ├── results_new/                      # Kết quả benchmark xuất ra CSV
-    │   └── README.md                         # Báo cáo kỹ thuật thuật toán LPA
-    ├── data/                                 # Dữ liệu mẫu (Seed Data)
-    │   ├── input.txt                         # Dữ liệu cho RDD WordCount
-    │   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
-    ├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
-    ├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
-    ├── requirements.txt                      # Danh mục thư viện đồng bộ
-    ├── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
-    ├── BAO_CAO_TIEN_DO_SPARK.md               # Báo cáo tiến độ chung của nhóm
-    └── README.md                             # Tài liệu tổng quan nhánh Minh-Quân
+.
+├── src/
+│   ├── lessons/                          # Các bài học & thực hành chuẩn hóa
+│   │   ├── 00_hello_spark.py             # Khởi tạo SparkSession chuẩn Apple Silicon
+│   │   ├── wordCount.py                  # MapReduce kinh điển trên RDD
+│   │   ├── day1_dataframe.py             # Transformation vs Action, Narrow vs Wide
+│   │   └── self_day1_dataframe.py        # Code tự gõ thực hành và kiểm thử profiling
+│   ├── graph/                            # Động cơ đồ thị phân tán
+│   │   ├── economic_graph.py             # Xây dựng đồ thị VECOM, PageRank, LPA
+│   │   └── self_lpa.py                   # Triển khai thực nghiệm thuật toán LPA
+│   ├── etl/
+│   │   └── 01_extract_vecom.py           # Pipeline ETL trích xuất thực thể đồ thị
+│   └── utils/
+│       └── profiler.py                   # Bộ đo Memory RSS Growth & Wall-clock Time
+├── Mini - Prj/                           # Thực nghiệm Đồ thị tương tác trên Jupyter
+│   ├── mini.ipynb                        # Chu trình, Connected Components & PageRank
+│   └── test.ipynb                        # Khai phá mẫu đồ thị (Motif / Frenemies)
+├── LPA_Label_Propogation_Algorithm/       # Pipeline chuyên sâu thuật toán LPA
+│   ├── communities.py                    # Khai phá cộng đồng
+│   ├── graphx.py                         # Cấu trúc đồ thị phân tán
+│   ├── read_data.py                      # Đọc và phân chia cạnh đồ thị
+│   ├── results_new/                      # Kết quả benchmark xuất ra CSV
+│   └── README.md                         # Báo cáo kỹ thuật thuật toán LPA
+├── data/                                 # Dữ liệu mẫu (Seed Data)
+│   ├── input.txt                         # Dữ liệu cho RDD WordCount
+│   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
+├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
+├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
+├── requirements.txt                      # Danh mục thư viện phụ thuộc
+├── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
+├── BAO_CAO_TIEN_DO_SPARK.md               # Tài liệu báo cáo tiến độ chi tiết
+└── README.md                             # Tài liệu tổng quan nhánh Minh-Quân
 ```
 
 ---
 
-## 🎯 IV. KỊCH BẢN THUYẾT TRÌNH BÁO CÁO TIẾN ĐỘ (DÀNH CHO BUỔI BÁO CÁO NGÀY MAI)
+## 🎯 IV. KỊCH BẢN THUYẾT TRÌNH BÁO CÁO TIẾN ĐỘ (DÀNH CHO BẠN)
 
-### Thời lượng gợi ý: 8 - 10 phút
-| Thời gian | Người trình bày | Nội dung trọng tâm |
+### Thời lượng gợi ý: 5 - 7 phút
+| Thời gian | Phần trình bày | Nội dung trọng tâm cần làm nổi bật |
 | :--- | :--- | :--- |
-| **0:00 - 1:30** | **Cả hai** | Giới thiệu mục tiêu chung: Làm chủ Spark từ lý thuyết tính toán phân tán đến ứng dụng thực tiễn (MLlib & Graph Mining). Giới thiệu phân công 2 nhánh. |
-| **1:30 - 4:30** | **Đặng Thành** | Báo cáo nhánh DataFrame API & MLlib: Demo pipeline tiền xử lý `VectorAssembler`, mô hình hồi quy giá nhà, giải thuật tối ưu L-BFGS, và lý do toán học khi dùng Log-transform giúp giảm MAE $10.5\%$. |
-| **4:30 - 7:30** | **Đặng Minh Quân** | Báo cáo nhánh Spark Engine & GraphFrames: Giải thích cơ chế Lazy Evaluation, demo đo lường hiệu năng với `profiler.py`, kiến trúc Docker Lab, thuật toán PageRank và phát hiện cộng đồng LPA với giải pháp `checkpoint()`. |
-| **7:30 - 8:30** | **Cả hai** | Tổng kết thành quả đạt được, đối chiếu mục tiêu và nêu kế hoạch giai đoạn tiếp theo. |
-| **8:30 - 10:00**| **Q&A** | Trả lời câu hỏi phản biện của Thầy / Mentor. |
+| **0:00 - 1:00** | **Đặt vấn đề & Mục tiêu** | • Giới thiệu định hướng: Không học cú pháp bề nổi mà đi sâu vào **Spark Engine Internals** và **Phân tán Đồ thị (GraphFrames)**.<br>• Nêu 3 trụ cột: Kiến trúc động cơ & Đo hiệu năng, Khai phá Đồ thị phân tán, Môi trường Docker Lab. |
+| **1:00 - 3:00** | **Kiến trúc Engine & Profiling** | • **Lazy Evaluation:** Catalyst Optimizer tối ưu kế hoạch thực thi ra sao.<br>• **Narrow vs Wide:** Ranh giới Shuffle Exchange cắt Stage và tại sao Shuffle là chi phí đắt đỏ nhất.<br>• **Demo Profiler:** Trình bày bộ đo `profiler.py` giám sát thời gian chạy và biến thiên RAM RSS trên máy Mac M3. |
+| **3:00 - 5:00** | **GraphFrames & Giải thuật Đồ thị** | • **Mô hình hóa Đồ thị:** Xây dựng đồ thị kinh tế VECOM và thực nghiệm trên Jupyter (`Mini - Prj/`).<br>• **PageRank:** Xác định nút hạt nhân trong mạng lưới.<br>• **LPA:** Thuật toán lan truyền nhãn phát hiện cộng đồng phân tán.<br>• **Kỹ thuật Checkpoint:** Giải thích lý do bắt buộc phải dùng `checkpoint()` để triệt tiêu lỗi tràn ngăn xếp JVM `StackOverflowError`. |
+| **5:00 - 6:00** | **Tổng kết & Kế hoạch** | • Hoàn thành đóng gói cụm Docker Spark 3.5.<br>• Nêu kế hoạch bước tiếp theo (mở rộng quy mô dữ liệu, tích hợp Delta Lake/Iceberg). |
+| **6:00 - 7:00+**| **Q&A** | Sẵn sàng trả lời phản biện từ Thầy / Mentor. |
 
 ---
 
@@ -156,13 +148,13 @@ pyspark/ (DANGTHANH2k7/pyspark)
 
 ### Câu hỏi 1: *"Tại sao Spark lại sử dụng cơ chế Lazy Evaluation thay vì thực thi ngay như Pandas?"*
 * **Trả lời:**
-  * Pandas thực thi ngay lập tức (Eager), sinh ra các DataFrame trung gian trong bộ nhớ sau mỗi dòng lệnh. Nếu làm việc với hàng trăm Gigabyte, RAM sẽ tràn ngay lập tức và không thể tối ưu.
-  * Spark áp dụng **Lazy Evaluation**: Các lệnh Transformation (`filter`, `select`, `join`) chỉ ghi nhận vào đồ thị **DAG (Directed Acyclic Graph)**. Khi gặp một Action (`collect`, `write`), trình tối ưu **Catalyst Optimizer** mới phân tích toàn bộ DAG: tự động gộp các phép lọc (Predicate Pushdown), chiếu chỉ các cột cần thiết (Column Pruning) và nối các thao tác vào một vòng lặp trong RAM, giúp hạn chế tối đa chi phí ghi đĩa và truyền tải mạng.
+  * Pandas thực thi ngay lập tức (Eager), sinh ra các DataFrame trung gian trong bộ nhớ sau mỗi dòng lệnh. Nếu làm việc với dữ liệu lớn hàng trăm Gigabyte, RAM sẽ tràn ngay lập tức và không thể tối ưu hóa xuyên suốt.
+  * Spark áp dụng **Lazy Evaluation**: Các lệnh Transformation (`filter`, `select`, `join`) chỉ ghi nhận vào đồ thị **DAG (Directed Acyclic Graph)**. Khi gặp một Action (`collect`, `write`), trình tối ưu **Catalyst Optimizer** mới phân tích toàn bộ DAG: tự động gộp các phép lọc (Predicate Pushdown), chiếu chỉ các cột cần thiết (Column Pruning) và nối các thao tác vào một vòng lặp trong RAM (Pipelining), giúp hạn chế tối đa chi phí ghi đĩa và truyền tải mạng.
 
 ### Câu hỏi 2: *"Phân biệt Narrow Dependency và Wide Dependency? Tại sao phải hạn chế Wide Dependency?"*
 * **Trả lời:**
   * **Narrow Dependency (Phụ thuộc hẹp):** Mỗi partition của RDD cha chỉ được dùng bởi tối đa một partition của RDD con (ví dụ: `map`, `filter`). Dữ liệu xử lý hoàn toàn tại chỗ trong RAM của Executor hiện tại (Pipelineable), không cần trao đổi dữ liệu.
-  * **Wide Dependency (Phụ thuộc rộng):** Nhiều partition của RDD con phụ thuộc vào dữ liệu từ các partition của RDD cha (ví dụ: `groupByKey`, `reduceByKey`, `join`). Hiện tượng này bắt buộc Spark phải kích hoạt **Shuffle**: ghi dữ liệu tạm ra đĩa, phân phối qua mạng mạng giữa các Executor. Shuffle là nút thắt cổ chai lớn nhất về I/O và độ trễ mạng trong hệ thống phân tán.
+  * **Wide Dependency (Phụ thuộc rộng):** Nhiều partition của RDD con phụ thuộc vào dữ liệu từ các partition của RDD cha (ví dụ: `groupByKey`, `reduceByKey`, `join`). Hiện tượng này bắt buộc Spark phải kích hoạt **Shuffle**: ghi dữ liệu tạm ra đĩa, phân phối qua mạng giữa các Executor. Shuffle là nút thắt cổ chai lớn nhất về I/O và độ trễ mạng trong hệ thống phân tán.
 
 ### Câu hỏi 3: *"Tại sao khi chạy các thuật toán lặp trên GraphFrames như PageRank hay LPA, bắt buộc phải gọi `checkpoint()`?"*
 * **Trả lời:**
@@ -170,15 +162,16 @@ pyspark/ (DANGTHANH2k7/pyspark)
   * Nếu không cắt tỉa, cây phả hệ (Lineage Graph) quá dài sẽ khiến bộ phân tích của trình biên dịch JVM bị tràn ngăn xếp (**StackOverflowError**) và bộ nhớ RAM của Driver phình to. 
   * Lệnh `checkpoint()` sẽ ngắt đứt cây lineage dài dằng dặc, lưu trữ kết quả của vòng lặp hiện tại xuống bộ lưu trữ vật lý ổn định (Storage), và tái thiết lập một lineage mới tinh gọn từ điểm kiểm tra đó.
 
-### Câu hỏi 4: *"Khi nào nên dùng Spark MLlib thay vì Scikit-Learn?"*
+### Câu hỏi 4: *"Tại sao bạn lại cấu hình `spark.sql.shuffle.partitions = 4` thay vì để mặc định?"*
 * **Trả lời:**
-  * Scikit-Learn chỉ xử lý trên một máy đơn (Single-node), dữ liệu phải vừa khít với dung lượng RAM máy chủ. Khi kích thước dữ liệu vượt ngưỡng hàng chục triệu bản ghi hoặc hàng trăm Gigabyte, Scikit-Learn sẽ gặp lỗi `Out of Memory (OOM)`.
-  * Spark MLlib được thiết kế chuyên biệt cho học máy phân tán trên cụm nhiều máy tính. Các giải thuật trong MLlib (như L-BFGS, ALS) được viết lại để tính toán gradient và ma trận song song trên từng phân vùng dữ liệu mà không cần gom toàn bộ dữ liệu về một máy.
+  * Giá trị mặc định của Spark là 200 partition, được thiết kế cho các cụm cluster lớn hàng trăm node.
+  * Khi chạy thực nghiệm cục bộ (Local Mode) trên chip Apple Silicon (Mac M3 có 4 nhân hiệu năng cao), việc chia thành 200 partition sẽ tạo ra 200 task siêu nhỏ, khiến CPU tốn phần lớn thời gian cho việc lập lịch (Task Scheduling Overhead) và tạo ra hàng trăm file rác shuffle.
+  * Thiết lập bằng đúng số nhân CPU (`4`) giúp mỗi partition tận dụng tối đa tài nguyên đa luồng và bộ nhớ đệm CPU mà không gây lãng phí điều phối.
 
 ---
 
 ## 🔮 VI. KẾ HOẠCH BƯỚC TIẾP THEO (NEXT STEPS)
 
-1. **Tích hợp Pipeline End-to-End:** Kết hợp kết quả từ phân hệ Graph (Đặc trưng đồ thị như PageRank, LPA Community ID) làm biến đầu vào bổ sung cho mô hình Spark MLlib để cải thiện độ chính xác dự báo.
-2. **Triển khai Delta Lake / Iceberg:** Nâng cấp tầng lưu trữ Silver/Gold từ Parquet thông thường lên bảng chuẩn ACID của Delta Lake để hỗ trợ Time Travel và Schema Enforcement.
-3. **Mở rộng cụm phân tán:** Thử nghiệm triển khai pipeline trên môi trường đám mây Dataproc / EMR với khối lượng dữ liệu thực tế lớn (>100GB).
+1. **Mở rộng Quy mô Đồ thị:** Thử nghiệm thuật toán LPA và PageRank trên các tập dữ liệu đồ thị mạng xã hội / giao dịch quy mô hàng triệu đỉnh và cạnh.
+2. **Nâng cấp tầng lưu trữ Lakehouse:** Tích hợp định dạng bảng **Delta Lake** hoặc **Apache Iceberg** để hỗ trợ giao dịch ACID, Time Travel và Schema Evolution.
+3. **Triển khai Cloud Dataproc:** Đưa pipeline từ môi trường Docker cục bộ lên cụm Dataproc Serverless trên Google Cloud Platform (GCP).
