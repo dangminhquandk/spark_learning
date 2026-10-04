@@ -3,8 +3,7 @@
 
 ```text
                                ┌────────────────────────────────────────────────────────┐
-                               │           SPARK DISTRIBUTED SYSTEM LAB                 │
-                               │           Tác giả: Đặng Minh Quân                      │
+                               │           SPARK DISTRIBUTED SYSTEM LAB                 │                      │
                                └───────────────────────────┬────────────────────────────┘
                                                            │
                ┌───────────────────────────────────────────┼───────────────────────────────────────────┐
@@ -33,7 +32,7 @@
 
 ## 🔬 II. NỘI DUNG
 
-### 1. Kiến trúc Spark &
+### 1. Kiến trúc Spark
 
 * **Lazy Evaluation & Catalyst Optimizer:** 
   - Phân biệt giữa **Transformations** (chỉ dựng đồ thị tính toán kế hoạch thực thi logic - DAG) và **Actions** (kích hoạt Job tính toán vật lý).
