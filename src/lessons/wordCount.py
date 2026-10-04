@@ -3,10 +3,10 @@ from pyspark.sql import functions as F
 
 spark = SparkSession.builder.appName("WordCountSQL").getOrCreate()
 
-# Đọc file văn bản
+# Đọc file
 df = spark.read.text("input.txt")
 
-# Tách chuỗi theo dấu phẩy thành mảng -> bung mảng thành từng dòng (explode) -> chuẩn hóa -> đếm
+
 result = (
     df.select(F.explode(F.split(df.value, ",")).alias("word"))
     .select(F.upper(F.trim(F.col("word"))).alias("word"))
@@ -16,5 +16,5 @@ result = (
 )
 
 result.show()
-input("Nhấn Enter để kết thúc...")
+input("Enter...")
 spark.stop()
