@@ -1,9 +1,9 @@
 ## 📌 I. TỔNG QUAN 
 
 
-```text
+```
                                ┌────────────────────────────────────────────────────────┐
-                               │           SPARK DISTRIBUTED SYSTEM LAB                 │                      │
+                               │           SPARK DISTRIBUTED SYSTEM LAB                 │               
                                └───────────────────────────┬────────────────────────────┘
                                                            │
                ┌───────────────────────────────────────────┼───────────────────────────────────────────┐
@@ -12,14 +12,13 @@
    ─────────────────────────────────           ──────────────────────────────                 ────────────────────────────
    • Catalyst Optimizer & DAG Plans            • GraphFrames (Vertices & Edges)               • Docker Compose
    • Lazy: Transformations vs Actions          • LPA Community Detection                      • Khắc phục xung đột PySpark & JVM
-   • Narrow vs Wide (Shuffle)                                                        • Data Lakehouse: Bronze/Silver/Gold
+   • Narrow vs Wide (Shuffle)                                                                 • Data Lakehouse: Bronze/Silver/Gold
   
 ```
 
 1. ** 1: Spark:**
-   - Làm chủ cơ chế Lazy Evaluation, lên kế hoạch chạy logic và vật lý qua **Catalyst Optimizer** và **Tungsten Engine**.
+   - Biết được cơ chế Lazy Evaluation, lên plan chạy thông qua qua **Catalyst Optimizer** và **Tungsten Engine**.
    - Hiểu bản chất **Narrow Dependency** (xử lý in-memory pipelining tại chỗ) vs **Wide Dependency** (Shuffle Exchange phân tán).
-   - Tối ưu hóa điều phối phân vùng: khống chế `spark.sql.shuffle.partitions = 4` phù hợp với 4 nhân CPU trên chip Apple Silicon (Mac M3) thay vì 200 partition mặc định gây lãng phí tài nguyên.
 
 2. ** 2:GraphFrames:**
    - **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph):** Biểu diễn mạng lưới các địa phương, sàn TMĐT dưới dạng directed multigraph (`src/graph/economic_graph.py`).
