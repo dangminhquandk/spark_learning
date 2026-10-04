@@ -56,7 +56,7 @@ if __name__ == "__main__":
         df_accounts.show(10, truncate=False)
         print(">> Tổng số dòng :", df_accounts.count())
 
-    with profile_block("Lọc VIP tại HCM"):
+    with profile_block("Lọc các tk VIP tại HCM"):
         hcm_vip_df = (
             df_accounts
             .select("account_id", "holder_name", "balance", "city")
