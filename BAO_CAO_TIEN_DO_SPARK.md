@@ -98,57 +98,44 @@
 ```text
 pyspark/ (DANGTHANH2k7/pyspark)
 │
-├── 📊 PHÂN HỆ CỦA ĐẶNG THÀNH (Core DataFrame & MLlib)
-│   ├── basic.ipynb                           # Thao tác đọc file, schema, select, cast
-│   ├── filter_operation.ipynb                # Các phép lọc có điều kiện phân tán
-│   ├── groupby_aggregateFunc.ipynb           # Gom nhóm, aggregation & Map-side reduce
-│   ├── null_value.ipynb                      # Xử lý khuyết thiếu với Imputer
-│   ├── MLLib.ipynb                           # Thử nghiệm ban đầu với Spark MLlib
-│   ├── LinearRegression/
-│   │   ├── tips/                             # Bài toán hồi quy tiền boa (Tips dataset)
-│   │   │   ├── tips.csv
-│   │   │   ├── tips.ipynb
-│   │   │   └── readme.md
-│   │   └── house_prices/                     # Dự đoán giá nhà (Toán học L-BFGS & Log)
-│   │       ├── house_prices.ipynb
-│   │       ├── house_prices.csv.zip
-│   │       └── README.md
-│   └── test1.csv, test2.csv, test3.csv       # Dữ liệu kiểm thử
+├── 🌿 NHÁNH `Thanh`: Phân hệ Core DataFrame & MLlib (Đặng Thành phụ trách)
+│   ├── basic.ipynb, filter_operation.ipynb, groupby_aggregateFunc.ipynb, null_value.ipynb
+│   ├── MLLib.ipynb
+│   └── LinearRegression/ (tips/, house_prices/)
 │
-├── ⚙️ PHÂN HỆ CỦA ĐẶNG MINH QUÂN (Engine Internals, Profiler & GraphFrames)
-│   ├── src/
-│   │   ├── lessons/                          # Các bài học & thực hành chuẩn hóa
-│   │   │   ├── 00_hello_spark.py             # Khởi tạo SparkSession chuẩn Apple Silicon
-│   │   │   ├── wordCount.py                  # MapReduce kinh điển trên RDD
-│   │   │   ├── day1_dataframe.py             # Transformation vs Action, Narrow vs Wide
-│   │   │   └── self_day1_dataframe.py        # Code tự gõ thực hành và kiểm thử profiling
-│   │   ├── graph/                            # Động cơ đồ thị phân tán
-│   │   │   ├── economic_graph.py             # Xây dựng đồ thị VECOM, PageRank, LPA
-│   │   │   └── self_lpa.py                   # Triển khai thực nghiệm thuật toán LPA
-│   │   ├── etl/
-│   │   │   └── 01_extract_vecom.py           # Pipeline ETL trích xuất thực thể đồ thị
-│   │   └── utils/
-│   │       └── profiler.py                   # Bộ đo Memory RSS Growth & Wall-clock Time
-│   ├── LPA_Label_Propogation_Algorithm/       # Pipeline chuyên sâu thuật toán LPA
-│   │   ├── communities.py                    # Khai phá cộng đồng
-│   │   ├── graphx.py                         # Cấu trúc đồ thị phân tán
-│   │   ├── read_data.py                      # Đọc và phân chia cạnh đồ thị
-│   │   ├── results_new/                      # Kết quả benchmark xuất ra CSV
-│   │   └── README.md                         # Báo cáo kỹ thuật thuật toán LPA
-│   ├── Mini - Prj/                           # Thực nghiệm Đồ thị tương tác trên Jupyter
-│   │   ├── mini.ipynb                        # Chu trình, Connected Components & PageRank
-│   │   └── test.ipynb                        # Khai phá mẫu đồ thị (Motif / Frenemies)
-│   ├── data/                                 # Dữ liệu mẫu (Seed Data)
-│   │   ├── input.txt                         # Dữ liệu cho RDD WordCount
-│   │   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
-│   ├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
-│   ├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
-│   ├── requirements.txt                      # Danh mục thư viện đồng bộ
-│   ├── ROADMAP_1_WEEK_INTENSIVE_GRAPHFRAME.md# Lộ trình học 1 tuần cấp tốc
-│   └── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
-│
-└── 📋 TÀI LIỆU BÁO CÁO & ĐIỀU PHỐI
-    └── BAO_CAO_TIEN_DO_SPARK.md               # Báo cáo tiến độ chung của nhóm
+└── 🌿 NHÁNH `Minh-Quân`: Phân hệ Engine Internals, Profiler & GraphFrames (Đặng Minh Quân phụ trách)
+    ├── src/
+    │   ├── lessons/                          # Các bài học & thực hành chuẩn hóa
+    │   │   ├── 00_hello_spark.py             # Khởi tạo SparkSession chuẩn Apple Silicon
+    │   │   ├── wordCount.py                  # MapReduce kinh điển trên RDD
+    │   │   ├── day1_dataframe.py             # Transformation vs Action, Narrow vs Wide
+    │   │   └── self_day1_dataframe.py        # Code tự gõ thực hành và kiểm thử profiling
+    │   ├── graph/                            # Động cơ đồ thị phân tán
+    │   │   ├── economic_graph.py             # Xây dựng đồ thị VECOM, PageRank, LPA
+    │   │   └── self_lpa.py                   # Triển khai thực nghiệm thuật toán LPA
+    │   ├── etl/
+    │   │   └── 01_extract_vecom.py           # Pipeline ETL trích xuất thực thể đồ thị
+    │   └── utils/
+    │       └── profiler.py                   # Bộ đo Memory RSS Growth & Wall-clock Time
+    ├── Mini - Prj/                           # Thực nghiệm Đồ thị tương tác trên Jupyter
+    │   ├── mini.ipynb                        # Chu trình, Connected Components & PageRank
+    │   └── test.ipynb                        # Khai phá mẫu đồ thị (Motif / Frenemies)
+    ├── LPA_Label_Propogation_Algorithm/       # Pipeline chuyên sâu thuật toán LPA
+    │   ├── communities.py                    # Khai phá cộng đồng
+    │   ├── graphx.py                         # Cấu trúc đồ thị phân tán
+    │   ├── read_data.py                      # Đọc và phân chia cạnh đồ thị
+    │   ├── results_new/                      # Kết quả benchmark xuất ra CSV
+    │   └── README.md                         # Báo cáo kỹ thuật thuật toán LPA
+    ├── data/                                 # Dữ liệu mẫu (Seed Data)
+    │   ├── input.txt                         # Dữ liệu cho RDD WordCount
+    │   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
+    ├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
+    ├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
+    ├── requirements.txt                      # Danh mục thư viện đồng bộ
+    ├── ROADMAP_1_WEEK_INTENSIVE_GRAPHFRAME.md# Lộ trình học 1 tuần cấp tốc
+    ├── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
+    ├── BAO_CAO_TIEN_DO_SPARK.md               # Báo cáo tiến độ chung của nhóm
+    └── README.md                             # Tài liệu tổng quan nhánh Minh-Quân
 ```
 
 ---
