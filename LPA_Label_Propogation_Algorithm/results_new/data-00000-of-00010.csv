@@ -1,0 +1,13 @@
+url,mention
+https://en.wikipedia.org/wiki/Python_(programming_language),https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/Machine_learning,https://en.wikipedia.org/wiki/Deep_learning
+https://en.wikipedia.org/wiki/Deep_learning,https://en.wikipedia.org/wiki/Python_(programming_language)
+https://en.wikipedia.org/wiki/Python_(programming_language),https://en.wikipedia.org/wiki/Data_science
+https://en.wikipedia.org/wiki/Data_science,https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/E-commerce,https://en.wikipedia.org/wiki/Retail
+https://en.wikipedia.org/wiki/Retail,https://en.wikipedia.org/wiki/Logistics
+https://en.wikipedia.org/wiki/Logistics,https://en.wikipedia.org/wiki/Supply_chain
+https://en.wikipedia.org/wiki/Supply_chain,https://en.wikipedia.org/wiki/E-commerce
+https://en.wikipedia.org/wiki/E-commerce,https://en.wikipedia.org/wiki/Digital_marketing
+https://en.wikipedia.org/wiki/Digital_marketing,https://en.wikipedia.org/wiki/Retail
+https://en.wikipedia.org/wiki/Data_science,https://en.wikipedia.org/wiki/E-commerce

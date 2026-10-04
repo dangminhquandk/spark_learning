@@ -1,8 +1,35 @@
 # Jupyter & OS Cache
 .ipynb_checkpoints/
 .DS_Store
+.AppleDouble
+.LSOverride
 __pycache__/
 *.pyc
+*.py[cod]
+*$py.class
+.pytest_cache/
 
-# Dataset > 100MB (Vượt quá giới hạn 100MB của GitHub khi không dùng Git LFS)
+# Dataset > 100MB
 house_prices.csv
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Data Lakehouse local storage & datasets
+data/
+*.parquet
+*.avro
+communities/
+*.crc
+
+# Reference materials & heavy assets
+self-study books/
+"Mini - Prj/"
+
+# Local IDE config & spark checkpoints
+.vscode/
+.idea/
+*.swp
+.spark_checkpoints/
