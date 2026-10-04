@@ -1,15 +1,5 @@
-# 🚀 BÁO CÁO TIẾN ĐỘ HỌC TẬP & NGHIÊN CỨU HỆ THỐNG APACHE SPARK
-**Đề tài:** Nghiên cứu Chuyên sâu Động cơ Phân tán Apache Spark & Khai phá Đồ thị Nâng cao (GraphFrames)  
-**Người thực hiện:** Đặng Minh Quân (`@dangminhquandk`)  
-**Nhánh làm việc:** `Minh-Quân`  
-**Repository:** [https://github.com/DANGTHANH2k7/pyspark/tree/Minh-Quân](https://github.com/DANGTHANH2k7/pyspark/tree/Minh-Quân)  
-**Thời gian báo cáo:** Tháng 10/2026  
+## 📌 I. TỔNG QUAN 
 
----
-
-## 📌 I. TỔNG QUAN MỤC TIÊU & ĐỊNH HƯỚNG NGHIÊN CỨU
-
-Thay vì chỉ tiếp cận Apache Spark ở góc độ cú pháp API mức cao (High-level API), lộ trình nghiên cứu của tôi tập trung vào **Nguyên lý Hoạt động từ Đầu (First Principles)** và **Kiến trúc Thực thi Phần cứng (Hardware & Distributed Engine)**, chia thành 3 trụ cột kỹ thuật cốt lõi:
 
 ```text
                                ┌────────────────────────────────────────────────────────┐
@@ -21,43 +11,36 @@ Thay vì chỉ tiếp cận Apache Spark ở góc độ cú pháp API mức cao 
                ▼                                           ▼                                           ▼
    【 ENGINE INTERNALS & PROFILING 】           【 DISTRIBUTED GRAPH MINING 】                 【 DOCKERIZED ENVIRONMENT 】
    ─────────────────────────────────           ──────────────────────────────                 ────────────────────────────
-   • Catalyst Optimizer & DAG Plans            • GraphFrames (Vertices & Edges)               • Docker Compose (Spark 3.5 + JARs)
-   • Lazy: Transformations vs Actions          • PageRank: Random Walk & Influence            • Khắc phục xung đột PySpark & JVM
-   • Narrow vs Wide (Shuffle Boundary)         • LPA Community Detection (Lan truyền nhãn)    • Tối ưu phần cứng chip Mac M3
-   • Hardware Profiler (RAM RSS & Time)        • Lineage Checkpointing (Tránh StackOverflow)  • Data Lakehouse: Bronze/Silver/Gold
+   • Catalyst Optimizer & DAG Plans            • GraphFrames (Vertices & Edges)               • Docker Compose
+   • Lazy: Transformations vs Actions          • LPA Community Detection                      • Khắc phục xung đột PySpark & JVM
+   • Narrow vs Wide (Shuffle)                                                        • Data Lakehouse: Bronze/Silver/Gold
+  
 ```
 
-1. **Trụ cột 1: Động cơ Spark & Tối ưu hóa Phần cứng (Engine Internals & Profiling):**
-   - Làm chủ cơ chế Lazy Evaluation, phân tích kế hoạch thực thi logic và vật lý qua **Catalyst Optimizer** và **Tungsten Engine**.
-   - Bóc tách bản chất **Narrow Dependency** (xử lý in-memory pipelining tại chỗ) vs **Wide Dependency** (Shuffle Exchange phân tán, cắt Stage).
+1. ** 1: Spark:**
+   - Làm chủ cơ chế Lazy Evaluation, lên kế hoạch chạy logic và vật lý qua **Catalyst Optimizer** và **Tungsten Engine**.
+   - Hiểu bản chất **Narrow Dependency** (xử lý in-memory pipelining tại chỗ) vs **Wide Dependency** (Shuffle Exchange phân tán).
    - Tối ưu hóa điều phối phân vùng: khống chế `spark.sql.shuffle.partitions = 4` phù hợp với 4 nhân CPU trên chip Apple Silicon (Mac M3) thay vì 200 partition mặc định gây lãng phí tài nguyên.
-   - Xây dựng bộ công cụ profiling độc lập (`src/utils/profiler.py`) giám sát đồng thời thời gian thực thi (Wall-clock Time) và mức tăng trưởng bộ nhớ RAM (Memory RSS Growth).
 
-2. **Trụ cột 2: Khai phá Đồ thị Phân tán Nâng cao (GraphFrames & Graph Mining):**
-   - **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph):** Biểu diễn mạng lưới các địa phương, sàn TMĐT và dòng chảy kinh tế dưới dạng directed multigraph (`src/graph/economic_graph.py`).
-   - **Thuật toán PageRank phân tán:** Mô phỏng Random Walk with Teleportation để xác định các hạt nhân điều phối dòng chảy kinh tế.
+2. ** 2:GraphFrames:**
+   - **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph):** Biểu diễn mạng lưới các địa phương, sàn TMĐT dưới dạng directed multigraph (`src/graph/economic_graph.py`).
    - **Thuật toán Lan truyền nhãn (Label Propagation Algorithm - LPA):** Triển khai phân cụm phát hiện cộng đồng tự nhiên trên dữ liệu lớn (`LPA_Label_Propogation_Algorithm/`).
-   - **Cơ chế Lineage Pruning (`checkpoint()`):** Giải quyết triệt để lỗi tràn ngăn xếp bộ nhớ JVM (**StackOverflowError**) phát sinh trong các giải thuật đồ thị lặp phân tán.
-   - **Thực nghiệm tương tác trên Jupyter Notebooks (`Mini - Prj/`):** Khai phá chu trình (Cycle Detection), thành phần liên thông (Connected Components) và mẫu đồ thị (Graph Motifs).
 
-3. **Trụ cột 3: Môi trường & Hạ tầng Triển khai Chuẩn hóa (Dockerized Spark Lab):**
-   - Đóng gói toàn bộ cụm thử nghiệm qua `Dockerfile` và `docker-compose.yml` tích hợp Spark 3.5, GraphFrames JAR, Hadoop AWS và Jupyter.
+3. ** 3:Dockerized Spark:**
+   - Đóng gói cụm thử nghiệm qua `Dockerfile` và `docker-compose.yml` tích hợp Spark 3.5, GraphFrames JAR, Hadoop AWS và Jupyter.
 
 ---
 
-## 🔬 II. NỘI DUNG NGHIÊN CỨU & THỰC THI CHI TIẾT
+## 🔬 II. NỘI DUNG
 
-### 1. Kiến trúc Động cơ Spark & Tối ưu hóa từ Nguyên lý đầu tiên (First Principles)
+### 1. Kiến trúc Spark &
 
 * **Lazy Evaluation & Catalyst Optimizer:** 
-  - Phân tách rạch ròi giữa **Transformations** (chỉ dựng đồ thị tính toán kế hoạch thực thi logic - DAG) và **Actions** (kích hoạt Job tính toán vật lý).
+  - Phân biệt giữa **Transformations** (chỉ dựng đồ thị tính toán kế hoạch thực thi logic - DAG) và **Actions** (kích hoạt Job tính toán vật lý).
   - Tránh kích hoạt Action bừa bãi (`.count()`, `.show()`) trong vòng lặp lớn để không phá vỡ khả năng tối ưu hóa pipelining của Catalyst.
 * **Narrow Transformation vs Wide Transformation (Shuffle Mechanics):**
   - **Narrow (map, filter):** Thực thi tại chỗ trên từng partition trong RAM, tận dụng cache CPU, không truyền dữ liệu qua mạng.
   - **Wide (groupBy, join, distinct):** Tạo ra Shuffle Exchange, cắt đứt Stage trên DAG, phát sinh I/O đĩa và serialization overhead.
-  - **Tối ưu phần cứng:** Khống chế `spark.sql.shuffle.partitions = 4` phù hợp với 4 nhân CPU trên chip Apple Silicon (Mac M3), tránh tạo 200 partition rác mặc định gây lãng phí overhead điều phối.
-* **Hệ thống Hardware Profiling chuyên dụng (`src/utils/profiler.py`):**
-  - Giám sát đồng thời thời gian thực thi (Wall-clock Time) và mức tăng trưởng bộ nhớ RAM (Resident Set Size - RSS Memory Delta) qua thư viện `psutil` để phát hiện rò rỉ bộ nhớ hoặc bottleneck phân tán.
 
 ---
 
@@ -65,10 +48,6 @@ Thay vì chỉ tiếp cận Apache Spark ở góc độ cú pháp API mức cao 
 
 * **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph - `src/graph/`):**
   - Biểu diễn mạng lưới các địa phương, sàn TMĐT và chuỗi liên kết dòng chảy kinh tế dưới dạng directed graph (Vertices $V$ & Edges $E$).
-* **Thuật toán PageRank phân tán:**
-  - Mô phỏng bước đi ngẫu nhiên có xác suất dịch chuyển (Random Walk with Teleportation $1 - \alpha = 0.15$):
-    $$PR^{(t+1)}(u) = \frac{1 - \alpha}{|V|} + \alpha \sum_{v \in B_u} \frac{PR^{(t)}(v)}{L(v)}$$
-  - Xác định các trung tâm hạt nhân (Core Hubs) điều phối dòng chảy kinh tế trong đồ thị.
 * **Thuật toán Lan truyền nhãn (Label Propagation Algorithm - LPA - `LPA_Label_Propogation_Algorithm/`):**
   - Phát hiện các cụm cộng đồng tự nhiên (Community Detection) với độ phức tạp tiệm cận gần tuyến tính:
     $$C_v^{(t+1)} = \operatorname{argmax}_c \sum_{u \in \mathcal{N}(v), C_u^{(t)} = c} w(u, v)$$
@@ -76,13 +55,10 @@ Thay vì chỉ tiếp cận Apache Spark ở góc độ cú pháp API mức cao 
 * **Kiểm soát Lineage & Tránh StackOverflowError (`checkpoint()`):**
   - Các thuật toán đồ thị lặp (Iterative Graph Algorithms) làm đồ thị RDD Lineage kéo dài liên tục sau mỗi vòng lặp.
   - Giải pháp bắt buộc: Thiết lập `spark.sparkContext.setCheckpointDir()` để định kỳ cắt tỉa nhánh lineage, ghi trạng thái trung gian xuống bộ lưu trữ tin cậy, ngăn ngừa tràn ngăn xếp bộ nhớ JVM.
-* **Thực nghiệm Tương tác trên Jupyter (`Mini - Prj/`):**
-  - [mini.ipynb](file:///Users/quandkh/spark_learning/Mini%20-%20Prj/mini.ipynb): Kiểm thử cấu hình an toàn cho chip Mac M3, giải thuật phát hiện chu trình (Cycle Detection), Connected Components và PageRank.
-  - [test.ipynb](file:///Users/quandkh/spark_learning/Mini%20-%20Prj/test.ipynb): Khai phá các mẫu quan hệ phức tạp (Motif Finding / Frenemies).
 
 ---
 
-### 3. Môi trường Thực nghiệm chuẩn hóa (Dockerized Spark Lab)
+### 3. Dockerized Spark
 
 * Đóng gói toàn bộ cụm thử nghiệm qua `Dockerfile` và `docker-compose.yml`:
   - Apache Spark 3.5.0, Python 3.11, PySpark, GraphFrames JAR (`graphframes:graphframes:0.8.3-spark3.5-s_2.12`), Hadoop AWS.
@@ -90,9 +66,7 @@ Thay vì chỉ tiếp cận Apache Spark ở góc độ cú pháp API mức cao 
 
 ---
 
-## 📂 III. BẢN ĐỒ CẤU TRÚC MÃ NGUỒN NHÁNH MINH-QUÂN
-
-Toàn bộ các tài nguyên, mã nguồn và tài liệu trên nhánh **`Minh-Quân`** được thiết kế module hóa, phục vụ trực tiếp cho lộ trình nghiên cứu trên:
+## 📂 III. CẤU TRÚC
 
 ```text
 .
@@ -124,7 +98,6 @@ Toàn bộ các tài nguyên, mã nguồn và tài liệu trên nhánh **`Minh-Q
 ├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
 ├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
 ├── requirements.txt                      # Danh mục thư viện phụ thuộc
-├── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
 ├── BAO_CAO_TIEN_DO_SPARK.md               # Tài liệu báo cáo tiến độ chi tiết
 └── README.md                             # Tài liệu tổng quan nhánh Minh-Quân
 ```
@@ -169,9 +142,3 @@ Toàn bộ các tài nguyên, mã nguồn và tài liệu trên nhánh **`Minh-Q
   * Thiết lập bằng đúng số nhân CPU (`4`) giúp mỗi partition tận dụng tối đa tài nguyên đa luồng và bộ nhớ đệm CPU mà không gây lãng phí điều phối.
 
 ---
-
-## 🔮 VI. KẾ HOẠCH BƯỚC TIẾP THEO (NEXT STEPS)
-
-1. **Mở rộng Quy mô Đồ thị:** Thử nghiệm thuật toán LPA và PageRank trên các tập dữ liệu đồ thị mạng xã hội / giao dịch quy mô hàng triệu đỉnh và cạnh.
-2. **Nâng cấp tầng lưu trữ Lakehouse:** Tích hợp định dạng bảng **Delta Lake** hoặc **Apache Iceberg** để hỗ trợ giao dịch ACID, Time Travel và Schema Evolution.
-3. **Triển khai Cloud Dataproc:** Đưa pipeline từ môi trường Docker cục bộ lên cụm Dataproc Serverless trên Google Cloud Platform (GCP).
