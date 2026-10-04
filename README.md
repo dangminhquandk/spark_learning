@@ -52,8 +52,7 @@
 │   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
 ├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
 ├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
-├── requirements.txt                      # Danh mục thư viện đồng bộ
-├── ROADMAP_1_WEEK_INTENSIVE_GRAPHFRAME.md# Lộ trình học 1 tuần cấp tốc
+├── requirements.txt                      # Danh mục thư viện phụ thuộc
 ├── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
 ├── BAO_CAO_TIEN_DO_SPARK.md               # Tài liệu báo cáo tiến độ chi tiết
 └── README.md                             # Tài liệu tổng quan nhánh Minh-Quân
