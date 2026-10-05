@@ -1,8 +1,5 @@
 # ⚡ PySpark & GraphFrame
-**Nhánh làm việc & Nghiên cứu:** `Minh-Quân`  
-**Tác giả:** Đặng Minh Quân (`@dangminhquandk`)  
-
-> 📌 **Báo cáo Tiến độ Chi tiết:** **[BAO_CAO_TIEN_DO_SPARK.md](./BAO_CAO_TIEN_DO_SPARK.md)**
+> 📌 **Báo cáo Tiến độ:** **[BAO_CAO_TIEN_DO_SPARK.md](./BAO_CAO_TIEN_DO_SPARK.md)**
 
 ---
 
