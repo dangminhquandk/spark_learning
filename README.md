@@ -21,46 +21,8 @@
 
 ---
 
-### Cấu trúc Mã nguồn Nhánh Minh-Quân
 
-```text
-.
-├── src/
-│   ├── lessons/                          # Bài học & thực hành chuẩn hóa
-│   │   ├── 00_hello_spark.py             # Khởi tạo SparkSession tối ưu phần cứng
-│   │   ├── wordCount.py                  # MapReduce kinh điển trên RDD
-│   │   ├── day1_dataframe.py             # Transformation vs Action, Narrow vs Wide
-│   │   └── self_day1_dataframe.py        # Code tự gõ thực hành và đo lường hiệu năng
-│   ├── graph/                            # Động cơ đồ thị phân tán
-│   │   ├── economic_graph.py             # Xây dựng đồ thị VECOM, PageRank, LPA
-│   │   └── self_lpa.py                   # Triển khai thực nghiệm thuật toán LPA
-│   ├── etl/
-│   │   └── 01_extract_vecom.py           # Pipeline ETL trích xuất thực thể đồ thị
-│   └── utils/
-│       └── profiler.py                   # Bộ đo Memory RSS Growth & Wall-clock Time
-├── Mini - Prj/                           # Thực nghiệm Đồ thị tương tác trên Jupyter
-│   ├── mini.ipynb                        # Chu trình, Connected Components & PageRank
-│   └── test.ipynb                        # Khai phá mẫu đồ thị (Motif / Frenemies)
-├── LPA_Label_Propogation_Algorithm/       # Pipeline chuyên sâu thuật toán LPA
-│   ├── communities.py                    # Khai phá cộng đồng
-│   ├── graphx.py                         # Cấu trúc đồ thị phân tán
-│   ├── read_data.py                      # Đọc và phân chia cạnh đồ thị
-│   ├── results_new/                      # Kết quả benchmark xuất ra CSV
-│   └── README.md                         # Báo cáo kỹ thuật thuật toán LPA
-├── data/                                 # Dữ liệu mẫu (Seed Data)
-│   ├── input.txt                         # Dữ liệu cho RDD WordCount
-│   └── raw/accounts.csv                  # Dữ liệu giao dịch ngân hàng cho Day 1
-├── Dockerfile                            # Image Spark 3.5 + GraphFrames + Jupyter
-├── docker-compose.yml                    # Khởi động cụm Spark phân tán cục bộ
-├── requirements.txt                      # Danh mục thư viện phụ thuộc
-├── ROADMAP_4_WEEKS_GRAPHFRAME.md         # Lộ trình nghiên cứu toàn diện 4 tuần
-├── BAO_CAO_TIEN_DO_SPARK.md               # Tài liệu báo cáo tiến độ chi tiết
-└── README.md                             # Tài liệu tổng quan nhánh Minh-Quân
-```
-
----
-
-### Hướng dẫn Khởi chạy Nhanh
+### Khởi chạy 
 
 #### 1. Khởi chạy với Môi trường Python cục bộ
 ```bash
