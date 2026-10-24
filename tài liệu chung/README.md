@@ -18,7 +18,6 @@
 
 ---
 
-
 ### Khởi chạy 
 
 #### 1. Khởi chạy với Môi trường Python cục bộ

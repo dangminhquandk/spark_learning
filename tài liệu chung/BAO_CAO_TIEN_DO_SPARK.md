@@ -21,7 +21,6 @@
    - Hiểu bản chất **Narrow Dependency** (xử lý in-memory pipelining tại chỗ) vs **Wide Dependency** (Shuffle Exchange phân tán).
 
 2. ** 2:GraphFrames:**
-   - **Mô hình hóa Đồ thị tri thức kinh tế (VECOM Economic Knowledge Graph):** Biểu diễn mạng lưới các địa phương, sàn TMĐT dưới dạng directed multigraph (`src/graph/economic_graph.py`).
    - **Thuật toán Lan truyền nhãn (Label Propagation Algorithm - LPA):** Triển khai phân cụm phát hiện cộng đồng tự nhiên trên dữ liệu lớn (`LPA_Label_Propogation_Algorithm/`).
 
 3. ** 3:Dockerized Spark:**

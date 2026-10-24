@@ -1,0 +1,29 @@
+Trong lập trình đơn máy (C++, Python), tư duy gỡ lỗi dựa vào dòng điều khiển (Control flow)
+Còn Big data thì dựa vào dòng dữ liệu (Data flow)
+
+- So sánh hai loại lỗi ở Lập Trình truyền thống (C++) vs Hệ thống Big data (Pyspark, Spark SQL):
+1. Kĩ thuật breakpoint:
+ - Đối với lập trình truyền thống thì rất dễ, khi đặt breakpoint, thì compiler dừng dòng code lại, xem value của biến trong RAM
+ - Còn đối với PySpark/ Spark SQL thì là bất khả thi, vì pipeline chạy trên 100 máy worker cùng lúc với 1 tỷ bản ghi thì ko thể stop lại cả cụm máy chủ
+2. Bản chất của lỗi (Bug Types): 
+ - Lập trình C++: Thường là Crash Bug (syntax, chia 0, trỏ NULL) -> Chương trình sẽ văng lỗi ra ngay và chỉ ra chính xác dòng code lỗi
+ - PySpark: Đa số là Semantic Bug (lỗi ngữ nghĩa/dữ liệu ngầm): Chạy success, nhưng lỗi ở data cho ra kết quả sai
+3. Cơ chế thực thi:
+ - C++: viết dòng nào, CPU chạy ngay dòng đó
+ - Pyspark: lazy evaluation & Catalyst Optimization
+4. Tái hiện lỗi (Reproducibility):
+ - C++: dễ
+ - Pyspark: Quá khó & tốn kém
+5. Tool hỗ trợ fix bug:
+- C++: rất phong phú
+- Pyspark: gần như = 0, chủ yếu debug bằng cách đoán mò hoặc viết các câu lệnh thủ công (Ad-hoc queries)
+
+
+--> Chính vì ko thể dùng breakpoint để DEBUG cho Big data, chúng ta có: Data Provenance (Truy vết nguồn gốc dữ liệu):
+Thay vì dừng hệ thống lại để xem lỗi, ta cho hệ thống chạy bình thường nhưng âm thầm ghi lại một "sợi dây phả hệ" siêu nhẹ kết nối giữa dữ liệu đầu vào và kết quả đầu ra.
+Khi kết quả đầu ra xuất hiện một con số dị thường (ví dụ: Tổng doanh thu bị âm), ta chỉ cần gọi lệnh: Trace(kết quả dị thường).
+Hệ thống sẽ tự động đi ngược sợi dây phả hệ để tìm ra bug
+
+
+PRISM
+

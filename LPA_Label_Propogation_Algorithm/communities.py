@@ -1,23 +1,43 @@
-import pandas as pd
-pd.options.display.width = 0
+import csv
+from collections import Counter
+from pathlib import Path
 
-class GetComm():
+
+class GetComm:
 
     def __init__(self):
-        pass
+        base_dir = Path(__file__).resolve().parent
+        csv_files = list((base_dir / "communities").glob("part-*.csv"))
+        if not csv_files:
+            raise FileNotFoundError(
+                "Chưa tìm thấy file CSV trong communities/"
+            )
+        self.csv_path = csv_files[0]
+        with open(self.csv_path, mode="r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            self.data = list(reader)
 
     def get_comm(self):
-        self.df = pd.read_csv('communities/part-00000-29490f6e-284f-47a5-9fae-00894ddca6a1-c000.csv')
-        # print(self.df.sort_values(by='label',ascending=True).head())
-        self.df = self.df.groupby('label').agg({'url':'count'}).reset_index()
-        print(self.df.sort_values(by='url',ascending=False).head(20))
+        counts = Counter(row["label"] for row in self.data)
+        print(">> Top các cộng đồng đông nhất (theo số lượng thực thể):")
+        print(f"{'Label':<18} | {'Số thực thể'}")
+        print("-" * 35)
+        for label, count in counts.most_common(20):
+            print(f"{label:<18} | {count}")
 
-    def get_items(self):
-        self.df = pd.read_csv('communities/part-00000-29490f6e-284f-47a5-9fae-00894ddca6a1-c000.csv')
-        self.df = self.df.loc[self.df['label'] == 1494648621359]
-        print(self.df.head(20))
+    def get_items(self, label=None):
+        if not self.data:
+            return
+        if label is None:
+            counts = Counter(row["label"] for row in self.data)
+            label = counts.most_common(1)[0][0]
+        print(f"\n>> Danh sách thực thể thuộc cộng đồng (label = {label}):")
+        matched = [row for row in self.data if row["label"] == str(label)]
+        for i, row in enumerate(matched[:20], 1):
+            print(f"{i:2d}. {row.get('url', '')}")
+
 
 if __name__ == "__main__":
     gcom = GetComm()
-    # gcom.get_comm()
+    gcom.get_comm()
     gcom.get_items()

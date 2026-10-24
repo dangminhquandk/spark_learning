@@ -1,0 +1,119 @@
+================================================================================
+           CẨM NANG PHỎNG VẤN FRESHER DATA ENGINEER - TPBANK (07/10/2026)
+                  Ứng viên: Đặng Minh Quân (HUST IT1 - CPA 3.77)
+================================================================================
+
+--- PHẦN 1: BÀI NÓI GIỚI THIỆU BẢN THÂN 90 GIÂY (ELEVATOR PITCH) ---
+(Nói với phong thái tự tin, mắt nhìn thẳng, tốc độ vừa phải, mỉm cười nhẹ)
+
+"Dạ em chào các anh/chị trong hội đồng phỏng vấn,
+Em là Đặng Minh Quân, hiện là sinh viên ngành Khoa học Máy tính (IT1) tại Đại học
+Bách Khoa Hà Nội, CPA hiện tại của em là 3.77.
+
+Từ nền tảng Khoa học Máy tính vững chắc về Cấu trúc dữ liệu & Giải thuật và Kiến
+trúc máy tính, em sớm định hướng chuyên sâu vào lĩnh vực Data Platform và Hệ
+thống phân tán.
+
+Trong quá trình học tập và thực hiện các đồ án với Apache Spark và Big Data, thay
+vì chỉ dừng lại ở mức gọi các hàm có sẵn, em đặc biệt quan tâm đến cơ chế vận
+hành bên dưới của engine: từ việc kiểm soát cơ chế Lazy Evaluation, giải quyết
+bài toán Lineage Bloat bằng Checkpoint trong các thuật toán lặp trên đồ thị, cho
+đến việc tối ưu dấu vết bộ nhớ (memory footprint) thực tế của tiến trình.
+
+Đến với chương trình Fresher Data Engineer của TPBank hôm nay, em mong muốn mang
+tư duy logic chặt chẽ, sự nghiêm túc về tối ưu tài nguyên và tinh thần chủ động
+học hỏi để cùng team giải quyết các bài toán dữ liệu lớn thực tế của ngân hàng ạ."
+
+
+--- PHẦN 2: TRẢ LỜI CÁC CÂU HỎI KỸ THUẬT & DỰ ÁN TRỌNG TÂM ---
+
+1. Thuật toán Đồ thị Spark & Lỗi StackOverflowError (economic_graph.py):
+- VẤN ĐỀ: Spark vận hành theo cơ chế Lazy Evaluation, ghi nhận các transformation
+  thành đồ thị kế hoạch DAG. Khi chạy thuật toán lặp như Connected Components hay
+  PageRank, mỗi vòng lặp lại nối dài thêm các stage vào DAG (gọi là Lineage Bloat).
+  Khi duyệt đệ quy DAG quá sâu, JVM sẽ bị tràn ngăn xếp (StackOverflowError trên Driver).
+- GIẢI PHÁP: Dùng `sc.setCheckpointDir()` và định kỳ gọi `.checkpoint()`.
+- TẠI SAO CHECKPOINT GIẢI QUYẾT ĐƯỢC MÀ CACHE THÌ KHÔNG?
+  + `cache()` chỉ lưu dữ liệu vào RAM/Disk nhưng vẫn giữ nguyên chuỗi DAG đằng trước
+    để nhỡ mất partition thì tính toán lại -> DAG vẫn tiếp tục dài ra vô tận.
+  + `checkpoint()` cắt đứt hoàn toàn chuỗi lineage phía trước, lưu dữ liệu trung gian
+    xuống đĩa vật lý (HDFS/Local disk) và coi đó như một nguồn dữ liệu gốc mới (lineage
+    được reset về 0), loại bỏ nguy cơ tràn stack.
+- TỐI ƯU MEMORY TRONG DỰ ÁN: Hash các chuỗi URL dài thành chuỗi Hex 8 ký tự để giảm
+  footprint trên worker RAM.
+
+2. Pipeline ML & Đo lường tài nguyên (profiler.py):
+- TẠI SAO CHỌN NAIVE BAYES THAY VÌ KNN?
+  + KNN là lazy learner, phải giữ toàn bộ dataset trong RAM và tính khoảng cách
+    độ phức tạp O(N * d), gây tốn kém tài nguyên.
+  + Multinomial Naive Bayes chỉ lưu các xác suất tham số, inference O(d), tiết kiệm
+    được hơn 110MB RAM trong bài toán phân loại.
+- XỬ LÝ MẤT CÂN BẰNG: Dùng Random Under-sampling để cân bằng nhãn mà không làm phình
+  to kích thước bộ nhớ.
+- ĐO LƯỜNG: Dùng `psutil` đo trực tiếp RSS RAM của tiến trình.
+
+3. Kỹ thuật SQL & Xử lý dữ liệu ngân hàng:
+- Tìm khách hàng chưa phát sinh giao dịch: Dùng `LEFT ANTI JOIN` (tự động lọc ra
+  những record ở bảng customers mà không có bên transactions, tối ưu hơn LEFT JOIN + IS NULL).
+- Lấy duy nhất 1 giao dịch có giá trị lớn nhất của từng khách hàng:
+  Dùng `ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY amount DESC) WHERE rn = 1`.
+  (Dùng ROW_NUMBER thay vì RANK để đảm bảo luôn lấy đúng duy nhất 1 bản ghi kể cả khi
+  có các giao dịch bằng tiền nhau).
+
+
+--- PHẦN 3: BỘ PHẢN XẠ CÁC CÂU HỎI TÌNH HUỐNG / ÁP LỰC (BEHAVIORAL) ---
+
+1. "Em mới là sinh viên năm 3, anh thấy hơi sớm so với các bạn năm cuối/mới ra trường. Anh phân vân có nên cho pass không?"
+- TRẢ LỜI: "Em rất hiểu sự cân nhắc của anh. Nhưng em tin đây chính là lợi thế:
+  + Về gắn bó: Các bạn năm cuối thường chỉ làm vài tháng để tốt nghiệp rồi có thể đổi hướng.
+    Còn em vào từ năm 3 xác định gắn bó lâu dài, có thể cống hiến liên tục 1.5 - 2 năm và
+    sẵn sàng trở thành nhân sự chính thức ngay khi ra trường.
+  + Về quản trị thời gian: Để đạt CPA 3.77 ở IT1 Bách Khoa và tự học Spark từ sớm, em đã
+    chủ động học vượt và sắp xếp lịch học khoa học để cam kết toàn tâm toàn ý cho công việc.
+  + Về tốc độ: Việc tự tin ứng tuyển từ năm 3 thể hiện tinh thần chủ động và khả năng tiếp
+    thu công nghệ rất nhanh của em."
+
+2. "Vào ngân hàng làm việc chân tay, dọn data bẩn, viết SQL bảo trì pipeline em có nản không?"
+- TRẢ LỜI: "Dạ không ạ. Em xác định hệ thống dữ liệu ngân hàng thì Data Integrity (tính
+  chính xác) và SLA (đúng giờ) quan trọng hơn thuật toán cao siêu. Chính các task xử lý
+  dữ liệu thô là cách tốt nhất giúp em hiểu sâu business logic của ngân hàng. Hiểu gốc rễ
+  thì sau này mới tối ưu hệ thống chuẩn xác được ạ."
+
+3. "Lịch học Bách Khoa nặng, nếu đợt tới Go-live phải OT mà trùng lịch thi thì sao?"
+- TRẢ LỜI: "Nguyên tắc của em là minh bạch và chủ động báo trước. Lịch thi Bách Khoa biết
+  trước 3-4 tuần. Em sẽ báo cáo Tech Lead ngay khi có lịch để chủ động hoàn thành trước
+  hoặc sắp xếp làm bù, tuyệt đối không để công việc chung của team bị chậm trễ."
+
+4. "Nếu thấy code của anh Senior chạy chưa tối ưu, em làm gì?"
+- TRẢ LỜI: "Em sẽ lắng nghe và tìm hiểu bối cảnh trước vì có thể code đó đang phải gánh
+  một ràng buộc nghiệp vụ mà người mới chưa biết. Sau đó, em sẽ tự benchmark thử nghiệm
+  độc lập trên môi trường dev. Khi có số liệu đo lường cụ thể, em mới xin phép trao đổi
+  để học hỏi và xin góc nhìn của anh Senior ạ."
+
+5. "Điểm yếu lớn nhất của em là gì?"
+- TRẢ LỜI: "Điểm yếu lớn nhất hiện tại của em là kinh nghiệm về nghiệp vụ ngân hàng
+  (Domain Knowledge). Em đã và đang khắc phục bằng cách chủ động đọc các tài liệu về
+  nghiệp vụ ngân hàng bán lẻ, thanh toán, và sẵn sàng dành trọn tháng đầu để học hỏi
+  Data Dictionary của TPBank từ các anh chị đi trước ạ."
+
+6. "Nếu vào ngân hàng chủ yếu dùng tool nội bộ/kéo thả chứ không code Spark nhiều thì sao?"
+- TRẢ LỜI: "Em hoàn toàn sẵn sàng. Công cụ chỉ là phương tiện. Bản chất cốt lõi của Data
+  Engineering là dữ liệu đúng, thông suốt và an toàn. Làm quen với tool chuẩn mực của
+  ngân hàng giúp em học được quy trình vận hành lớn. Khi cần mở rộng hoặc xử lý bài toán
+  phức tạp, nền tảng Big Data của em vẫn luôn sẵn sàng phát huy ạ."
+
+
+--- PHẦN 4: CÂU HỎI NGƯỢC DÀNH CHO HỘI ĐỒNG (KẾT BUỔI) ---
+"Dạ nếu có cơ hội đồng hành cùng TPBank ở vị trí Fresher Data Engineer, điều gì mà
+các anh/chị kỳ vọng nhất ở một bạn Fresher trong 2 đến 3 tháng đầu tiên tham gia vào
+đội ngũ dữ liệu của ngân hàng ạ?"
+
+
+================================================================================
+                    LỜI DẶN DÒ TRƯỚC GIỜ BƯỚC VÀO PHÒNG:
+1. Hít sâu 3 nhịp, mỉm cười chào cả hội đồng thật đĩnh đạc và lễ phép.
+2. Bạn là IT1 Bách Khoa, CPA 3.77, hiểu bản chất bộ nhớ và thuật toán.
+3. Không cần gồng mình làm Senior, hãy là một Fresher có nền tảng cực vững,
+   khiêm tốn, sáng dạ và ham học hỏi.
+                   CHÚC QUÂN TỎA SÁNG VÀ CHIẾN THẮNG!
+================================================================================

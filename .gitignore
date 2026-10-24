@@ -28,8 +28,12 @@ communities/
 self-study books/
 "Mini - Prj/"
 
+# External cloned research repos
+repos/
+
 # Local IDE config & spark checkpoints
 .vscode/
 .idea/
 *.swp
 .spark_checkpoints/
+physdocx/

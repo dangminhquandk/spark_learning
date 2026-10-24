@@ -12,7 +12,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(BASE_DIR))
 
-# Đảm bảo môi trường thực thi chuẩn theo quy tắc dự án
 os.environ["SPARK_LOCAL_IP"] = "127.0.0.1"
 os.environ["PYSPARK_PYTHON"] = sys.executable
 
@@ -33,7 +32,7 @@ def create_spark_session() -> SparkSession:
         .config("spark.jars.packages", "graphframes:graphframes:0.8.4-spark3.5-s_2.13")
         .getOrCreate()
     )
-    # Checkpoint là bắt buộc để cắt tỉa RDD Lineage trong các giải thuật lặp (PageRank, LPA)
+    # Checkpoint
     checkpoint_dir = str(BASE_DIR / ".spark_checkpoints")
     os.makedirs(checkpoint_dir, exist_ok=True)
     spark.sparkContext.setCheckpointDir(checkpoint_dir)
@@ -114,12 +113,10 @@ if __name__ == "__main__":
         g.edges.show(truncate=False)
 
     with profile_block("Phân tích PageRank (Economic Hubs)"):
-        print("\n🏆 [PAGERANK] BẢNG XẾP HẠNG CỰC TĂNG TRƯỞNG KINH TẾ:")
         hubs_df = analyze_economic_hubs(g, max_iter=10)
         hubs_df.show(truncate=False)
 
     with profile_block("Phân tích LPA (Economic Communities)"):
-        print("\n🌐 [LPA] PHÂN CỤM CỘNG ĐỒNG GIAO THƯƠNG NỘI VÙNG:")
         clusters_df = analyze_economic_clusters(g, max_iter=5)
         clusters_df.show(truncate=False)
 

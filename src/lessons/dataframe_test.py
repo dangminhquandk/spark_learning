@@ -22,7 +22,7 @@ def create_spark_session() -> SparkSession:
         .config("spark.default.parallelism", "4")
         .getOrCreate()
     )
-
+ 
 
 def demo_sql_vs_pyspark(spark: SparkSession):
 
